@@ -2,7 +2,7 @@ import { createElement } from '../src/render.js';
 
 class AddPointForm {
 
-  addFormItems = `<li class="trip-events__item">
+  addFormItems = /*html*/`<li class="trip-events__item">
   <form class="event event--edit" action="#" method="post">
     <header class="event__header">
       <div class="event__type-wrapper">

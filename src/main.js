@@ -1,3 +1,3 @@
-import {presenter} from '../view/presenter.js';
+import { RootPresenter } from '../view/root-presenter.js';
 
-presenter();
+new RootPresenter();
