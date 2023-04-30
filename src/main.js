@@ -1,3 +1,5 @@
-import { RootPresenter } from '../view/root-presenter.js';
+import RootPresenter from './presenter/root-presenter.js';
 
-new RootPresenter();
+const mainPage = new RootPresenter();
+
+mainPage.init();
