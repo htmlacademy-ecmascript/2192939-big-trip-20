@@ -5,17 +5,17 @@ import ListPointView from '../view/list-point-view.js';
 import AddPointFormView from '../view/add-point-form-view.js';
 import PointView from '../view/point-view.js';
 
-const COUNT_POINTS = 3;
 const listPointContainer = new ListPointView();
 const tripEventsContainer = document.querySelector('.trip-events');
 
 class PagePresenter {
-  constructor() {
+  constructor({ pointsModel }) {
+    this.pagePoints = [...pointsModel.getPoints()];
     render(new SortView(), tripEventsContainer);
     render(listPointContainer, tripEventsContainer);
     render(new EditPointForm(), listPointContainer.getElement(), RenderPosition.AFTERBEGIN);
-    for (let i = 0; i < COUNT_POINTS; i++) {
-      render(new PointView(), listPointContainer.getElement());
+    for (let i = 0; i < this.pagePoints.length; i++) {
+      render(new PointView({ point: this.pagePoints[i] }), listPointContainer.getElement());
     }
     render(new AddPointFormView(), listPointContainer.getElement());
   }
