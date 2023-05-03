@@ -28,9 +28,6 @@ const createPointPictureList = (pointDestination) => {
 const createEditPointFormView = (point, destinations, offers) => {
   const pointOffers = getPointAllOffers(point, offers).offers;
   const pointDestination = getPointDestination(point, destinations);
-  const isPointOffer = pointOffers.length > 0;
-  const isPointDestination = pointDestination.description !== undefined;
-  const isPictures = pointDestination.pictures !== undefined;
 
   return/*html*/`<li class="trip-events__item">
   <form class="event event--edit" action="#" method="post">
@@ -129,20 +126,20 @@ const createEditPointFormView = (point, destinations, offers) => {
     </button>
   </header>
   <section class="event__details">
-    <section class="event__section  event__section--offers ${isPointOffer ? '' : 'visually-hidden'}">
+    <section class="event__section  event__section--offers ${pointOffers.length > 0 ? '' : 'visually-hidden'}">
       <h3 class="event__section-title  event__section-title--offers">Offers</h3>
       <div class="event__available-offers">
       ${createPointOfferList(pointOffers)}
       </div>
     </section>
 
-    <section class="event__section  event__section--destination ${isPointDestination ? '' : 'visually-hidden'}">
+    <section class="event__section  event__section--destination ${pointDestination.description ? '' : 'visually-hidden'}">
       <h3 class="event__section-title  event__section-title--destination">Destination</h3>
       <p class="event__destination-description">${pointDestination.description}</p>
 
-      <div class="${isPictures ? 'event__photos-container' : 'visually-hidden'}">
+      <div class="${pointDestination.pictures ? 'event__photos-container' : 'visually-hidden'}">
       <div class="event__photos-tape">
-        ${isPictures ? createPointPictureList(pointDestination) : ''}
+        ${pointDestination.pictures ? createPointPictureList(pointDestination) : ''}
       </div>
     </div>
 

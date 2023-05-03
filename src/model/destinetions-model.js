@@ -1,7 +1,7 @@
-import { getDestinations } from '../mock/point.js';
+import { generateDestinations } from '../mock/point.js';
 
 class DestinationsModel {
-  destinations = getDestinations();
+  destinations = generateDestinations();
 
   getDestinations = () => this.destinations;
 }

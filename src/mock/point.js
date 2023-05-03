@@ -425,7 +425,7 @@ const mockOffers = [
   }
 ];
 
-const getRandomPoint = () => getRandomArrayElement(mockPoints);
-const getDestinations = () => mockDestinations;
-const getOffers = () => mockOffers;
-export { getRandomPoint, getDestinations, getOffers };
+const generateRandomPoint = () => getRandomArrayElement(mockPoints);
+const generateDestinations = () => mockDestinations;
+const generateOffers = () => mockOffers;
+export { generateRandomPoint, generateDestinations, generateOffers };

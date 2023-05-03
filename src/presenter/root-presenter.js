@@ -6,20 +6,18 @@ class RootPresenter {
     this.pagePoints = [...pointsModel.getPoints()];
     this.pageDestinations = [...destinationsModel.getDestinations()];
     this.pageOffers = offersModel.getOffers();
+    this.headerPresenter = new HeaderPresenter({
+      pagePoints: this.pagePoints,
+      pageDestinations: this.pageDestinations,
+      pageOffers: this.pageOffers
+    });
+    this.pagePresenter = new PagePresenter({
+      pagePoints: this.pagePoints,
+      pageDestinations: this.pageDestinations,
+      pageOffers: this.pageOffers
+    });
   }
 
-  init = () => {
-    new HeaderPresenter({
-      pagePoints: this.pagePoints,
-      pageDestinations: this.pageDestinations,
-      pageOffers: this.pageOffers
-    });
-    new PagePresenter({
-      pagePoints: this.pagePoints,
-      pageDestinations: this.pageDestinations,
-      pageOffers: this.pageOffers
-    });
-  };
 }
 
 export default RootPresenter;

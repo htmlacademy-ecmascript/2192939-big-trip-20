@@ -1,7 +1,7 @@
-import { getOffers } from '../mock/point.js';
+import { generateOffers } from '../mock/point.js';
 
 class OffersModel {
-  offers = getOffers();
+  offers = generateOffers();
 
   getOffers = () => this.offers;
 }

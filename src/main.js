@@ -7,6 +7,4 @@ const pointsModel = new PointsModel();
 const destinationsModel = new DestinationsModel();
 const offersModel = new OffersModel();
 
-const mainPage = new RootPresenter({ pointsModel, destinationsModel, offersModel });
-
-mainPage.init();
+new RootPresenter({ pointsModel, destinationsModel, offersModel });

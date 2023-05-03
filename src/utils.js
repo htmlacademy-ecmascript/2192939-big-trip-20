@@ -1,7 +1,8 @@
+const MILLISECONDS_IN_DAY = 1000 * 60 * 60 * 24;
+const MILLISECONDS_IN_HOUR = 1000 * 60 * 60;
+const MILLISECONDS_IN_MINUTE = 1000 * 60;
 const HOURES_IN_DAY = 24;
 const MINUTES_IN_HOUR = 60;
-const SECONDS_IN_MINUTE = 60;
-const MILLISECONDS_IN_SECONDS = 1000;
 
 const getRandomArrayElement = (items) => items[Math.floor(Math.random() * items.length)];
 const getRandomInteger = (min, max) => {
@@ -22,9 +23,9 @@ const getTimeTravel = (date1, date2) => {
   const dateFirst = Date.parse(date1);
   const dateSecond = Date.parse(date2);
   let date = '';
-  const days = Math.trunc((dateSecond - dateFirst) / MILLISECONDS_IN_SECONDS / SECONDS_IN_MINUTE / MINUTES_IN_HOUR / HOURES_IN_DAY);
-  let houres = Math.trunc((dateSecond - dateFirst) / MILLISECONDS_IN_SECONDS / SECONDS_IN_MINUTE / MINUTES_IN_HOUR);
-  let minutes = Math.trunc((dateSecond - dateFirst) / MILLISECONDS_IN_SECONDS / SECONDS_IN_MINUTE);
+  const days = Math.trunc((dateSecond - dateFirst) / MILLISECONDS_IN_DAY);
+  let houres = Math.trunc((dateSecond - dateFirst) / MILLISECONDS_IN_HOUR);
+  let minutes = Math.trunc((dateSecond - dateFirst) / MILLISECONDS_IN_MINUTE);
   date += days > 0 ? formatDate(days, 'D ') : '';
   houres -= days * HOURES_IN_DAY;
   date += houres > 0 ? formatDate(houres, 'H ') : '';
@@ -35,39 +36,16 @@ const getTimeTravel = (date1, date2) => {
 };
 
 const getPointOffers = (point, offers) => {
-  const pointOffers = [];
-  offers.forEach((offer) => {
-    if (point.type === offer.type) {
-      point.offers.forEach((pointId) => {
-        offer.offers.forEach((offerId) => {
-          if (pointId === offerId.id) {
-            pointOffers.push(offerId);
-          }
-        });
-      });
-    }
-  });
-  return pointOffers;
+  const correctOffer = offers.find((offer) => offer.type === point.type);
+  if (!correctOffer) {
+    return [];
+  }
+  return point.offers.filter((id) => correctOffer.offers.indexOf(id) !== -1);
 };
 
 const getPointAllOffers = (point, offers) => offers.find((offer) => point.type === offer.type);
 
-const getPointDestination = (point, destinations) => {
-  let pointDestination = {};
-  destinations.forEach((destination) => {
-    if (point.id === destination.id) {
-      pointDestination = destination;
-    }
-  });
-  return pointDestination;
-};
+const getPointDestination = (point, destinations) => destinations.find((destination) => point.id === destination.id);
 
-const getPointsDestinathion = (points, destinations) => {
-  const pointsDestination = [];
-  points.forEach((point) => {
-    pointsDestination.push(getPointDestination(point, destinations));
-  });
-  return pointsDestination;
-};
 
-export { getRandomArrayElement, getTimeTravel, getPointOffers, getPointDestination, getPointsDestinathion, getPointAllOffers, getRandomInteger };
+export { getRandomArrayElement, getTimeTravel, getPointOffers, getPointDestination, getPointAllOffers, getRandomInteger };

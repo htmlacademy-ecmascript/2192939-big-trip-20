@@ -4,17 +4,17 @@ import { getTimeTravel, getPointOffers, getPointDestination } from '../utils.js'
 
 const createPointList = (pointOffer) => {
   let pointList = '';
-  for (let i = 0; i < pointOffer.length; i++) {
+  pointOffer.forEach((currentOffer) => {
     pointList += `<li class="event__offer">
-                      <span class="event__offer-title">${pointOffer[i].title}</span>
+                      <span class="event__offer-title">${currentOffer.title}</span>
                       &plus;&euro;&nbsp;
-                      <span class="event__offer-price">${pointOffer[i].price}</span>
+                      <span class="event__offer-price">${currentOffer.price}</span>
                     </li>`;
-  }
+  });
   return pointList;
 };
 
-const createPointView = (point,destinations,offers) => {
+const createPointView = (point, destinations, offers) => {
   const favoriteClassName = point.isFavorite ? 'event__favorite-btn--active' : '';
   const timeTravel = getTimeTravel(point.dateFrom, point.dateTo);
   const pointOffer = getPointOffers(point, offers);
@@ -62,7 +62,7 @@ class PointView {
     this.offers = offers;
   }
 
-  getTemplate = () => createPointView(this.point,this.destinations,this.offers);
+  getTemplate = () => createPointView(this.point, this.destinations, this.offers);
 
   getElement = () => {
     if (!this.element) {
