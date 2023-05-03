@@ -1,3 +1,10 @@
-import { RootPresenter } from '../view/root-presenter.js';
+import RootPresenter from './presenter/root-presenter.js';
+import PointsModel from './model/points-model.js';
+import DestinationsModel from './model/destinetions-model.js';
+import OffersModel from './model/offers-model.js';
 
-new RootPresenter();
+const pointsModel = new PointsModel();
+const destinationsModel = new DestinationsModel();
+const offersModel = new OffersModel();
+
+new RootPresenter({ pointsModel, destinationsModel, offersModel });

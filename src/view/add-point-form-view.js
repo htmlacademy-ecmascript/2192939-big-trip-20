@@ -1,8 +1,6 @@
-import { createElement } from '../src/render.js';
+import { createElement } from '../render.js';
 
-class AddPointForm {
-
-  addFormItems = /*html*/`<li class="trip-events__item">
+const createAddPointFormView = () => /*html*/`<li class="trip-events__item">
   <form class="event event--edit" action="#" method="post">
     <header class="event__header">
       <div class="event__type-wrapper">
@@ -166,9 +164,19 @@ class AddPointForm {
 </li>
 `;
 
-  getElement() {
-    return createElement(this.addFormItems);
-  }
+class AddPointFormView {
+  getTemplate = () => createAddPointFormView();
+
+  getElement = () => {
+    if (!this.element) {
+      this.element = createElement(this.getTemplate());
+    }
+    return this.element;
+  };
+
+  removeElement = () => {
+    this.element = null;
+  };
 }
 
-export default AddPointForm;
+export default AddPointFormView;
