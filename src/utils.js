@@ -4,6 +4,11 @@ const SECONDS_IN_MINUTE = 60;
 const MILLISECONDS_IN_SECONDS = 1000;
 
 const getRandomArrayElement = (items) => items[Math.floor(Math.random() * items.length)];
+const getRandomInteger = (min, max) => {
+  const rand = min - 0.5 + Math.random() * (max - min + 1);
+  return Math.round(rand);
+};
+
 
 const formatDate = (date, item) => {
   if (date < 10) {
@@ -45,8 +50,10 @@ const getPointOffers = (point, offers) => {
   return pointOffers;
 };
 
+const getPointAllOffers = (point, offers) => offers.find((offer) => point.type === offer.type);
+
 const getPointDestination = (point, destinations) => {
-  let pointDestination = '';
+  let pointDestination = {};
   destinations.forEach((destination) => {
     if (point.id === destination.id) {
       pointDestination = destination;
@@ -55,4 +62,12 @@ const getPointDestination = (point, destinations) => {
   return pointDestination;
 };
 
-export { getRandomArrayElement, getTimeTravel, getPointOffers, getPointDestination };
+const getPointsDestinathion = (points, destinations) => {
+  const pointsDestination = [];
+  points.forEach((point) => {
+    pointsDestination.push(getPointDestination(point, destinations));
+  });
+  return pointsDestination;
+};
+
+export { getRandomArrayElement, getTimeTravel, getPointOffers, getPointDestination, getPointsDestinathion, getPointAllOffers, getRandomInteger };

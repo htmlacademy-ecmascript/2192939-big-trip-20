@@ -1,25 +1,24 @@
 import { createElement } from '../render.js';
 import dayjs from 'dayjs';
-import { mockOffers, mockDestinations } from '../mock/point.js';
 import { getTimeTravel, getPointOffers, getPointDestination } from '../utils.js';
 
-const createPointLis = (pointOffer) => {
+const createPointList = (pointOffer) => {
   let pointList = '';
   for (let i = 0; i < pointOffer.length; i++) {
     pointList += `<li class="event__offer">
                       <span class="event__offer-title">${pointOffer[i].title}</span>
                       &plus;&euro;&nbsp;
-                      <span class="event__offer-price">${pointOffer[0].price}</span>
+                      <span class="event__offer-price">${pointOffer[i].price}</span>
                     </li>`;
   }
   return pointList;
 };
 
-const createPointView = (point) => {
+const createPointView = (point,destinations,offers) => {
   const favoriteClassName = point.isFavorite ? 'event__favorite-btn--active' : '';
   const timeTravel = getTimeTravel(point.dateFrom, point.dateTo);
-  const pointOffer = getPointOffers(point, mockOffers);
-  const pointDestination = getPointDestination(point, mockDestinations);
+  const pointOffer = getPointOffers(point, offers);
+  const pointDestination = getPointDestination(point, destinations);
 
   return /*html*/`<li class="trip-events__item">
               <div class="event">
@@ -41,7 +40,7 @@ const createPointView = (point) => {
                 </p>
                 <h4 class="visually-hidden">Offers:</h4>
                 <ul class="event__selected-offers">
-                  ${createPointLis(pointOffer)}
+                  ${createPointList(pointOffer)}
                 </ul>
                 <button class="event__favorite-btn ${favoriteClassName}" type="button">
                   <span class="visually-hidden">Add to favorite</span>
@@ -57,11 +56,13 @@ const createPointView = (point) => {
 };
 
 class PointView {
-  constructor({ point }) {
+  constructor({ point, destinations, offers }) {
     this.point = point;
+    this.destinations = destinations;
+    this.offers = offers;
   }
 
-  getTemplate = () => createPointView(this.point);
+  getTemplate = () => createPointView(this.point,this.destinations,this.offers);
 
   getElement = () => {
     if (!this.element) {

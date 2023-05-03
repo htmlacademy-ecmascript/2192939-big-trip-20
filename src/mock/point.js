@@ -23,7 +23,10 @@ const mockPoints = [
     'destination': '2',
     'isFavorite': true,
     'offers': [
-      '2'
+      '2',
+      '5',
+      '6',
+      '9'
     ],
     'type': 'bus'
   },
@@ -35,7 +38,8 @@ const mockPoints = [
     'destination': '3',
     'isFavorite': true,
     'offers': [
-      '3'
+      '3',
+      '9'
     ],
     'type': 'train'
   },
@@ -47,7 +51,9 @@ const mockPoints = [
     'destination': '4',
     'isFavorite': true,
     'offers': [
-      '4'
+      '4',
+      '5',
+      '8'
     ],
     'type': 'ship'
   },
@@ -71,7 +77,11 @@ const mockPoints = [
     'destination': '6',
     'isFavorite': false,
     'offers': [
-      '6'
+      '6',
+      '5',
+      '7',
+      '8',
+      '9'
     ],
     'type': 'flight'
   },
@@ -82,9 +92,7 @@ const mockPoints = [
     'dateTo': '2023-06-30T11:22:13.375Z',
     'destination': '7',
     'isFavorite': true,
-    'offers': [
-      '7'
-    ],
+    'offers': [],
     'type': 'check-in'
   },
   {
@@ -95,7 +103,9 @@ const mockPoints = [
     'destination': '8',
     'isFavorite': false,
     'offers': [
-      '8'
+      '8',
+      '7',
+      '9'
     ],
     'type': 'sightseeing'
   },
@@ -107,7 +117,10 @@ const mockPoints = [
     'destination': '9',
     'isFavorite': true,
     'offers': [
-      '9'
+      '9',
+      '1',
+      '2',
+      '5'
     ],
     'type': 'restaurant'
   }
@@ -118,12 +131,7 @@ const mockDestinations = [
     'id': '1',
     'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
     'name': 'Paris',
-    'pictures': [
-      {
-        'src': '../../public/img/photos/1.jpg',
-        'description': 'Cras aliquet varius magna, non porta ligula feugiat eget'
-      }
-    ]
+    'pictures': []
   },
   {
     'id': '2',
@@ -131,11 +139,11 @@ const mockDestinations = [
     'name': 'London',
     'pictures': [
       {
-        'src': '../../public/img/photos/2.jpg',
+        'src': 'img/photos/2.jpg',
         'description': 'Lorem ipsum dolor sit amet'
       },
       {
-        'src': '../../public/img/photos/3.jpg',
+        'src': 'img/photos/3.jpg',
         'description': 'Lorem ipsum dolor sit amet'
       }
     ]
@@ -146,19 +154,40 @@ const mockDestinations = [
     'name': 'Berlin',
     'pictures': [
       {
-        'src': '../../public/img/photos/3.jpg',
+        'src': 'img/photos/1.jpg',
         'description': 'Lorem ipsum dolor sit amet'
-      }
+      },
+      {
+        'src': 'img/photos/2.jpg',
+        'description': 'Lorem ipsum dolor sit amet'
+      },
+      {
+        'src': 'img/photos/3.jpg',
+        'description': 'Lorem ipsum dolor sit amet'
+      },
     ]
   },
   {
     'id': '4',
     'description': 'Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis.',
+    'name': 'Vienna',
     'pictures': [
       {
-        'src': '../../public/img/photos/4.jpg',
+        'src': 'img/photos/4.jpg',
         'description': 'Lorem ipsum dolor sit amet'
-      }
+      },
+      {
+        'src': 'img/photos/5.jpg',
+        'description': 'Lorem ipsum dolor sit amet'
+      },
+      {
+        'src': 'img/photos/3.jpg',
+        'description': 'Lorem ipsum dolor sit amet'
+      },
+      {
+        'src': 'img/photos/2.jpg',
+        'description': 'Lorem ipsum dolor sit amet'
+      },
     ]
   },
   {
@@ -167,7 +196,7 @@ const mockDestinations = [
     'name': 'Prague',
     'pictures': [
       {
-        'src': '../../public/img/photos/5.jpg',
+        'src': 'img/photos/5.jpg',
         'description': 'Lorem ipsum dolor sit amet'
       }
     ]
@@ -178,11 +207,11 @@ const mockDestinations = [
     'name': 'Dublin',
     'pictures': [
       {
-        'src': '../../public/img/photos/1.jpg',
+        'src': 'img/photos/1.jpg',
         'description': 'Lorem ipsum dolor sit amet'
       },
       {
-        'src': '../../public/img/photos/4.jpg',
+        'src': 'img/photos/4.jpg',
         'description': 'Lorem ipsum dolor sit amet'
       }
     ]
@@ -193,7 +222,7 @@ const mockDestinations = [
     'name': 'Madrid',
     'pictures': [
       {
-        'src': '../../public/img/photos/2.jpg',
+        'src': 'img/photos/2.jpg',
         'description': 'Lorem ipsum dolor sit amet'
       }
     ]
@@ -204,7 +233,7 @@ const mockDestinations = [
     'name': 'Barselona',
     'pictures': [
       {
-        'src': '../../public/img/photos/3.jpg',
+        'src': 'img/photos/3.jpg',
         'description': 'Lorem ipsum dolor sit amet'
       }
     ]
@@ -215,7 +244,7 @@ const mockDestinations = [
     'name': 'Rome',
     'pictures': [
       {
-        'src': '../../public/img/photos/4.jpg',
+        'src': 'img/photos/4.jpg',
         'description': 'Lorem ipsum dolor sit amet'
       }
     ]
@@ -228,19 +257,19 @@ const mockOffers = [
     'offers': [
       {
         'id': '1',
-        'title': 'Upgrade to a business class1',
+        'title': 'Offer - 1',
         'price': 120
+      },
+      {
+        'id': '2',
+        'title': 'Offer - 2',
+        'price': 220
       },
       {
         'id': '3',
-        'title': 'Upgrade to a business class1',
+        'title': 'Offer - 1',
         'price': 120
       },
-      {
-        'id': '4',
-        'title': 'Upgrade to a business class1',
-        'price': 120
-      }
     ]
   },
   {
@@ -248,9 +277,23 @@ const mockOffers = [
     'offers': [
       {
         'id': '2',
-        'title': 'Upgrade to a business class2',
+        'title': 'Offer - 2',
         'price': 220
-      }
+      }, {
+        'id': '4',
+        'title': 'Offer - 1',
+        'price': 120
+      },
+      {
+        'id': '5',
+        'title': 'Offer - 5',
+        'price': 150
+      },
+      {
+        'id': '6',
+        'title': 'Offer - 6',
+        'price': 160
+      },
     ]
   },
   {
@@ -258,7 +301,7 @@ const mockOffers = [
     'offers': [
       {
         'id': '3',
-        'title': 'Upgrade to a business class3',
+        'title': 'Offer - 3',
         'price': 320
       }
     ]
@@ -268,9 +311,34 @@ const mockOffers = [
     'offers': [
       {
         'id': '4',
-        'title': 'Upgrade to a business class4',
+        'title': 'Offer - 4',
         'price': 420
-      }
+      },
+      {
+        'id': '7',
+        'title': 'Offer - 7',
+        'price': 170
+      },
+      {
+        'id': '8',
+        'title': 'Offer - 8',
+        'price': 180
+      },
+      {
+        'id': '4',
+        'title': 'Offer - 1',
+        'price': 120
+      },
+      {
+        'id': '5',
+        'title': 'Offer - 5',
+        'price': 150
+      },
+      {
+        'id': '6',
+        'title': 'Offer - 6',
+        'price': 160
+      },
     ]
   },
   {
@@ -278,9 +346,23 @@ const mockOffers = [
     'offers': [
       {
         'id': '5',
-        'title': 'Upgrade to a business class5',
+        'title': 'Offer - 5',
         'price': 150
-      }
+      }, {
+        'id': '4',
+        'title': 'Offer - 1',
+        'price': 120
+      },
+      {
+        'id': '5',
+        'title': 'Offer - 5',
+        'price': 150
+      },
+      {
+        'id': '6',
+        'title': 'Offer - 6',
+        'price': 160
+      },
     ]
   },
   {
@@ -288,9 +370,18 @@ const mockOffers = [
     'offers': [
       {
         'id': '6',
-        'title': 'Upgrade to a business class6',
+        'title': 'Offer - 6',
         'price': 160
-      }
+      }, {
+        'id': '4',
+        'title': 'Offer - 1',
+        'price': 120
+      },
+      {
+        'id': '5',
+        'title': 'Offer - 5',
+        'price': 150
+      },
     ]
   },
   {
@@ -298,7 +389,7 @@ const mockOffers = [
     'offers': [
       {
         'id': '7',
-        'title': 'Upgrade to a business class7',
+        'title': 'Offer - 7',
         'price': 170
       }
     ]
@@ -308,7 +399,7 @@ const mockOffers = [
     'offers': [
       {
         'id': '8',
-        'title': 'Upgrade to a business class8',
+        'title': 'Offer - 8',
         'price': 180
       }
     ]
@@ -318,13 +409,23 @@ const mockOffers = [
     'offers': [
       {
         'id': '9',
-        'title': 'Upgrade to a business class9',
+        'title': 'Offer - 9',
         'price': 920
-      }
+      }, {
+        'id': '7',
+        'title': 'Offer - 7',
+        'price': 170
+      },
+      {
+        'id': '8',
+        'title': 'Offer - 8',
+        'price': 180
+      },
     ]
   }
 ];
 
 const getRandomPoint = () => getRandomArrayElement(mockPoints);
-
-export { getRandomPoint, mockDestinations, mockOffers };
+const getDestinations = () => mockDestinations;
+const getOffers = () => mockOffers;
+export { getRandomPoint, getDestinations, getOffers };

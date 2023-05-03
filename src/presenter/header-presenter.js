@@ -9,11 +9,14 @@ const tripMainContainer = document.querySelector('.trip-main');
 const filtersContainer = document.querySelector('.trip-controls__filters');
 
 class HeaderPresenter {
-  constructor() {
+  constructor({ pagePoints, pageDestinations, pageOffers }) {
+    this.pagePoints = pagePoints;
+    this.pageDestinations = pageDestinations;
+    this.pageOffers = pageOffers;
     render(new FilterView(), filtersContainer);
     render(tripInfoContainer, tripMainContainer, RenderPosition.AFTERBEGIN);
-    render(new TripInfoMainView(), tripInfoContainer.getElement());
-    render(new TripInfoCostView(), tripInfoContainer.getElement());
+    render(new TripInfoMainView({ points: this.pagePoints,destinations:this.pageDestinations,offers:this.pageOffers }), tripInfoContainer.getElement());
+    render(new TripInfoCostView({ points: this.pagePoints,destinations:this.pageDestinations,offers:this.pageOffers }), tripInfoContainer.getElement());
   }
 }
 
