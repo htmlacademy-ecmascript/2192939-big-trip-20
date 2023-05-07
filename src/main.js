@@ -8,3 +8,4 @@ const destinationsModel = new DestinationsModel();
 const offersModel = new OffersModel();
 
 new RootPresenter({ pointsModel, destinationsModel, offersModel });
+

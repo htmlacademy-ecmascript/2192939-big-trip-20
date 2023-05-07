@@ -1,20 +1,13 @@
-import { createElement } from '../render.js';
+import AbstractView from '../framework/view/abstract-view';
 
-const createTripInfoView = () => '<section class="trip-main__trip-info  trip-info"></section>';
+function createTripInfoView() {
+  return '<section class="trip-main__trip-info  trip-info"></section>';
+}
 
-class TripInfoView {
-  getTemplate = () => createTripInfoView();
-
-  getElement = () => {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-    return this.element;
-  };
-
-  removeElement = () => {
-    this.element = null;
-  };
+class TripInfoView extends AbstractView {
+  get template() {
+    return createTripInfoView();
+  }
 }
 
 export default TripInfoView;

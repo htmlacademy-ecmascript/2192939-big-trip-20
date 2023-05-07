@@ -4,22 +4,24 @@ const MILLISECONDS_IN_MINUTE = 1000 * 60;
 const HOURES_IN_DAY = 24;
 const MINUTES_IN_HOUR = 60;
 
-const getRandomArrayElement = (items) => items[Math.floor(Math.random() * items.length)];
-const getRandomInteger = (min, max) => {
+function getRandomArrayElement(items) {
+  return items[Math.floor(Math.random() * items.length)];
+}
+function getRandomInteger(min, max) {
   const rand = min - 0.5 + Math.random() * (max - min + 1);
   return Math.round(rand);
-};
+}
 
 
-const formatDate = (date, item) => {
+function formatDate(date, item) {
   if (date < 10) {
     return `0${date}${item}`;
   } else {
     return `${date}${item}`;
   }
-};
+}
 
-const getTimeTravel = (date1, date2) => {
+function getTimeTravel(date1, date2) {
   const dateFirst = Date.parse(date1);
   const dateSecond = Date.parse(date2);
   let date = '';
@@ -33,19 +35,23 @@ const getTimeTravel = (date1, date2) => {
   date += minutes > 0 ? formatDate(minutes, 'M') : '00M';
 
   return date;
-};
+}
 
-const getPointOffers = (point, offers) => {
+function getPointOffers(point, offers) {
   const correctOffer = offers.find((offer) => offer.type === point.type);
   if (!correctOffer) {
     return [];
   }
-  return point.offers.filter((id) => correctOffer.offers.indexOf(id) !== -1);
-};
+  return correctOffer.offers;
+}
 
-const getPointAllOffers = (point, offers) => offers.find((offer) => point.type === offer.type);
+function getPointAllOffers(point, offers) {
+  return offers.find((offer) => point.type === offer.type);
+}
 
-const getPointDestination = (point, destinations) => destinations.find((destination) => point.id === destination.id);
+function getPointDestination(point, destinations) {
+  return destinations.find((destination) => point.id === destination.id);
+}
 
 
 export { getRandomArrayElement, getTimeTravel, getPointOffers, getPointDestination, getPointAllOffers, getRandomInteger };
