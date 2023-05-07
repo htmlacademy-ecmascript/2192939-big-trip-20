@@ -1,23 +1,23 @@
-import { createElement } from '../render.js';
 import dayjs from 'dayjs';
 import { getTimeTravel, getPointOffers, getPointDestination } from '../utils.js';
+import AbstractView from '../framework/view/abstract-view.js';
 
-const createPointList = (pointOffer) => {
+function createPointList(pointOffers) {
   let pointList = '';
-  pointOffer.forEach((currentOffer) => {
+  pointOffers.forEach((pointOffer) => {
     pointList += `<li class="event__offer">
-                      <span class="event__offer-title">${currentOffer.title}</span>
+                      <span class="event__offer-title">${pointOffer.title}</span>
                       &plus;&euro;&nbsp;
-                      <span class="event__offer-price">${currentOffer.price}</span>
+                      <span class="event__offer-price">${pointOffer.price}</span>
                     </li>`;
   });
   return pointList;
-};
+}
 
-const createPointView = (point, destinations, offers) => {
+function createPointView(point, destinations, offers) {
   const favoriteClassName = point.isFavorite ? 'event__favorite-btn--active' : '';
   const timeTravel = getTimeTravel(point.dateFrom, point.dateTo);
-  const pointOffer = getPointOffers(point, offers);
+  const pointOffers = getPointOffers(point, offers);
   const pointDestination = getPointDestination(point, destinations);
 
   return /*html*/`<li class="trip-events__item">
@@ -40,7 +40,7 @@ const createPointView = (point, destinations, offers) => {
                 </p>
                 <h4 class="visually-hidden">Offers:</h4>
                 <ul class="event__selected-offers">
-                  ${createPointList(pointOffer)}
+                  ${createPointList(pointOffers)}
                 </ul>
                 <button class="event__favorite-btn ${favoriteClassName}" type="button">
                   <span class="visually-hidden">Add to favorite</span>
@@ -53,26 +53,33 @@ const createPointView = (point, destinations, offers) => {
                 </button>
               </div>
             </li>`;
-};
+}
 
-class PointView {
-  constructor({ point, destinations, offers }) {
-    this.point = point;
-    this.destinations = destinations;
-    this.offers = offers;
+class PointView extends AbstractView {
+  #point = null;
+  #destinations = null;
+  #offers = null;
+
+  #handleEditPoint = null;
+
+  constructor({ point, destinations, offers, onEditClick }) {
+    super();
+    this.#point = point;
+    this.#destinations = destinations;
+    this.#offers = offers;
+
+    this.#handleEditPoint = onEditClick;
+
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editClickHadler);
   }
 
-  getTemplate = () => createPointView(this.point, this.destinations, this.offers);
+  get template() {
+    return createPointView(this.#point, this.#destinations, this.#offers);
+  }
 
-  getElement = () => {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-    return this.element;
-  };
-
-  removeElement = () => {
-    this.element = null;
+  #editClickHadler = (evt) => {
+    evt.preventDefault();
+    this.#handleEditPoint();
   };
 }
 

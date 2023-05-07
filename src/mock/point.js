@@ -425,7 +425,13 @@ const mockOffers = [
   }
 ];
 
-const generateRandomPoint = () => getRandomArrayElement(mockPoints);
-const generateDestinations = () => mockDestinations;
-const generateOffers = () => mockOffers;
+function generateRandomPoint() {
+  return getRandomArrayElement(mockPoints);
+}
+function generateDestinations() {
+  return mockDestinations;
+}
+function generateOffers() {
+  return mockOffers;
+}
 export { generateRandomPoint, generateDestinations, generateOffers };

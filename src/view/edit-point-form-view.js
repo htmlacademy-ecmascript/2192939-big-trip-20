@@ -1,6 +1,6 @@
-import { createElement } from '../render.js';
 import dayjs from 'dayjs';
 import { getPointAllOffers, getPointDestination, getRandomInteger } from '../utils.js';
+import AbstractView from '../framework/view/abstract-view.js';
 
 const createPointOfferList = (pointOffers) => {
   let pointList = '';
@@ -17,15 +17,15 @@ const createPointOfferList = (pointOffers) => {
   return pointList;
 };
 
-const createPointPictureList = (pointDestination) => {
+function createPointPictureList(pointDestination) {
   let pointPhotoList = '';
   pointDestination.pictures.forEach((picture) => {
     pointPhotoList += `<img class="event__photo" src="${picture.src}" alt="${picture.description}">`;
   });
   return pointPhotoList;
-};
+}
 
-const createEditPointFormView = (point, destinations, offers) => {
+function createEditPointFormView(point, destinations, offers) {
   const pointOffers = getPointAllOffers(point, offers).offers;
   const pointDestination = getPointDestination(point, destinations);
 
@@ -143,31 +143,44 @@ const createEditPointFormView = (point, destinations, offers) => {
       </div>
     </div>
 
-
     </section>
   </section>
 </form>
 </li>`;
-};
+}
 
-class EditPointForm {
-  constructor({ point, destinations, offers }) {
-    this.point = point;
-    this.destinations = destinations;
-    this.offers = offers;
+class EditPointForm extends AbstractView {
+  #point = null;
+  #destinations = null;
+  #offers = null;
+
+  #handleFormSubmit = null;
+  #handleFormClose = null;
+
+  constructor({ point, destinations, offers, onFormSubmit, onFormClose }) {
+    super();
+    this.#point = point;
+    this.#destinations = destinations;
+    this.#offers = offers;
+
+    this.#handleFormSubmit = onFormSubmit;
+    this.#handleFormClose = onFormClose;
+    this.element.querySelector('.event--edit').addEventListener('submit', this.#formSubmitHandler);
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#formCloseHandler);
   }
 
-  getTemplate = () => createEditPointFormView(this.point, this.destinations, this.offers);
+  get template() {
+    return createEditPointFormView(this.#point, this.#destinations, this.#offers);
+  }
 
-  getElement = () => {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-    return this.element;
+  #formSubmitHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleFormSubmit();
   };
 
-  removeElement = () => {
-    this.element = null;
+  #formCloseHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleFormClose();
   };
 }
 
