@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
-import { getPointAllOffers, getPointDestination, getRandomInteger } from '../utils.js';
+import { getPointAllOffers, getPointDestination } from '../utils/points.js';
+import { getRandomInteger } from '../utils/common.js';
 import AbstractView from '../framework/view/abstract-view.js';
 
 const createPointOfferList = (pointOffers) => {

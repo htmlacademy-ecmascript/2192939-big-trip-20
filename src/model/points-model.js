@@ -1,6 +1,7 @@
 import { generateRandomPoint } from '../mock/point.js';
+import { getRandomInteger } from '../utils/common.js';
 
-const POINT_COUNT = 4;
+const POINT_COUNT = getRandomInteger(1, 10);
 
 class PointsModel {
   #points = Array.from({ length: POINT_COUNT }, generateRandomPoint);
