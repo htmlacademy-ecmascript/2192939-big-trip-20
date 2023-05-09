@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
-import { getTimeTravel, getPointOffers, getPointDestination } from '../utils.js';
+import { getPointOffers, getPointDestination } from '../utils/points.js';
+import { getTimeTravel } from '../utils/date.js';
 import AbstractView from '../framework/view/abstract-view.js';
 
 function createPointList(pointOffers) {

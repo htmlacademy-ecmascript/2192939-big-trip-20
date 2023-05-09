@@ -3,6 +3,7 @@ import SortView from '../view/sort-view.js';
 import ListPointView from '../view/list-point-view.js';
 import PointView from '../view/point-view.js';
 import EditPointForm from '../view/edit-point-form-view.js';
+import NoPointView from '../view/no-point-view.js';
 
 
 class PagePresenter {
@@ -18,9 +19,15 @@ class PagePresenter {
     this.#pageDestinations = pageDestinations;
     this.#pageOffers = pageOffers;
     render(new SortView(), this.#tripEventsContainer);
-    render(this.#listPointContainer, this.#tripEventsContainer);
-    for (let i = 1; i < this.#pagePoints.length; i++) {
-      this.#renderPoint(this.#pagePoints[i], this.#pageDestinations, this.#pageOffers);
+    this.#renderListPoint(this.#pagePoints, this.#listPointContainer, this.#tripEventsContainer);
+    this.#pagePoints.forEach((pagePoint) => this.#renderPoint(pagePoint, this.#pageDestinations, this.#pageOffers));
+  }
+
+  #renderListPoint(points, listPointContainer, tripEventsContainer) {
+    if (!points.length) {
+      render(new NoPointView(), tripEventsContainer);
+    } else {
+      render(listPointContainer, tripEventsContainer);
     }
   }
 
@@ -51,7 +58,7 @@ class PagePresenter {
       },
       onFormClose: () => {
         replaceFormToPoint();
-        document.addEventListener('keydown', escKeyDownHandler);
+        document.removeEventListener('keydown', escKeyDownHandler);
       }
     });
 
