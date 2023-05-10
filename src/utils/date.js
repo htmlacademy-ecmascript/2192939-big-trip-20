@@ -1,29 +1,26 @@
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 
-const MILLISECONDS_IN_SECOND = 1000;
-const MILLISECONDS_IN_MINUTE = MILLISECONDS_IN_SECOND * 60;
-const MILLISECONDS_IN_HOUR = MILLISECONDS_IN_MINUTE * 60;
-const MILLISECONDS_IN_DAY = MILLISECONDS_IN_HOUR * 24;
+const EnumTime = {
+  MsInMinute: 1000 * 60,
+  MsInHour: 1000 * 60 * 60,
+  MsInDay: 1000 * 60 * 60 * 24,
+};
 
 dayjs.extend(duration);
 
 function getTimeTravel(date1, date2) {
   const timeDiff = dayjs(date2).diff(dayjs(date1));
-  let pointDuration = '';
 
-  switch (true) {
-    case (timeDiff >= MILLISECONDS_IN_DAY):
-      pointDuration = dayjs.duration(timeDiff).format('DD[D] HH[H] mm[M]');
-      break;
-    case (timeDiff >= MILLISECONDS_IN_HOUR):
-      pointDuration = dayjs.duration(timeDiff).format('HH[H] mm[M]');
-      break;
-    case (timeDiff < MILLISECONDS_IN_MINUTE):
-      pointDuration = dayjs.duration(timeDiff).format('mm[M]');
-      break;
+  if (timeDiff >= EnumTime.MsInDay) {
+    return dayjs.duration(timeDiff).format('DD[D] HH[H] mm[M]');
   }
-  return pointDuration;
+  if (timeDiff >= EnumTime.MsInHour) {
+    return dayjs.duration(timeDiff).format('HH[H] mm[M]');
+  }
+  if (timeDiff < EnumTime.MsInMinute) {
+    return dayjs.duration(timeDiff).format('mm[M]');
+  }
 }
 
 export { getTimeTravel };

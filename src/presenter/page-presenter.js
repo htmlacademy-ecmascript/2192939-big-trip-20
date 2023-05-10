@@ -24,11 +24,7 @@ class PagePresenter {
   }
 
   #renderListPoint(points, listPointContainer, tripEventsContainer) {
-    if (!points.length) {
-      render(new NoPointView(), tripEventsContainer);
-    } else {
-      render(listPointContainer, tripEventsContainer);
-    }
+    render(!points.length ? new NoPointView() : listPointContainer, tripEventsContainer);
   }
 
   #renderPoint(point, destinations, offers) {
