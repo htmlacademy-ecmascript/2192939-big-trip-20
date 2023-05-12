@@ -1,4 +1,4 @@
-import { render, replace } from '../framework/render.js';
+import { render, replace, RenderPosition } from '../framework/render.js';
 import SortView from '../view/sort-view.js';
 import ListPointView from '../view/list-point-view.js';
 import PointView from '../view/point-view.js';
@@ -10,21 +10,40 @@ class PagePresenter {
   #pagePoints = null;
   #pageDestinations = null;
   #pageOffers = null;
+  #tripEventsContainer = null;
 
   #listPointContainer = new ListPointView();
-  #tripEventsContainer = document.querySelector('.trip-events');
+  #sortPointComponent = new SortView();
+  #noPointComponent = new NoPointView();
 
-  constructor({ pagePoints, pageDestinations, pageOffers }) {
+  constructor({ pagePoints, pageDestinations, pageOffers, tripEventsContainer }) {
     this.#pagePoints = pagePoints;
     this.#pageDestinations = pageDestinations;
     this.#pageOffers = pageOffers;
-    render(new SortView(), this.#tripEventsContainer);
+    this.#tripEventsContainer = tripEventsContainer;
+
     this.#renderListPoint(this.#pagePoints, this.#listPointContainer, this.#tripEventsContainer);
-    this.#pagePoints.forEach((pagePoint) => this.#renderPoint(pagePoint, this.#pageDestinations, this.#pageOffers));
+
   }
 
   #renderListPoint(points, listPointContainer, tripEventsContainer) {
-    render(!points.length ? new NoPointView() : listPointContainer, tripEventsContainer);
+    if (!points.length) {
+      this.#noPointComponent();
+      return;
+    }
+
+    this.#renderListPointContainer(listPointContainer, tripEventsContainer);
+    this.#renderSort();
+    this.#pagePoints.forEach((pagePoint) => this.#renderPoint(pagePoint, this.#pageDestinations, this.#pageOffers));
+  }
+
+
+  #renderListPointContainer(listPointContainer, tripEventsContainer) {
+    render(listPointContainer, tripEventsContainer);
+  }
+
+  #renderSort() {
+    render(this.#sortPointComponent, this.#tripEventsContainer, RenderPosition.AFTERBEGIN);
   }
 
   #renderPoint(point, destinations, offers) {

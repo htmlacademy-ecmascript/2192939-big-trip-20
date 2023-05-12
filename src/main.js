@@ -7,5 +7,7 @@ const pointsModel = new PointsModel();
 const destinationsModel = new DestinationsModel();
 const offersModel = new OffersModel();
 
-new RootPresenter({ pointsModel, destinationsModel, offersModel });
+const tripEventsContainer = document.querySelector('.trip-events');
+
+new RootPresenter({ pointsModel, destinationsModel, offersModel, tripEventsContainer });
 
