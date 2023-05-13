@@ -27,33 +27,32 @@ function createTripInfoTitle(points, destinations) {
   return tripInfoTitle;
 }
 
-function createTripInfoMainView(points, destinations) {
+function createTripInfoMainTemplate(points, destinations) {
   const firstDate = points.length > 0 ? dayjs(points[0].dateFrom).format('MMM DD') : '';
-  let secondDate = points.length > 1 ? `${'&nbsp;&mdash;&nbsp;'}${dayjs(points[points.length - 1].dateTo).format('MMM DD')}` : '';
+  const secondDate = points.length > 1 ? `${'&nbsp;&mdash;&nbsp;'}${dayjs(points[points.length - 1].dateTo).format('MMM DD')}` : '';
 
-  if (dayjs(points[0].dateFrom).format('MMM') === dayjs(points[points.length - 1].dateTo).format('MMM')) {
-    secondDate = points.length > 1 ? `${'&nbsp;&mdash;&nbsp;'}${dayjs(points[points.length - 1].dateTo).format('DD')}` : '';
-  }
   return /*html*/`<div class="trip-info__main">
-    ${createTripInfoTitle(points, destinations)}
+              ${createTripInfoTitle(points, destinations)}
 
-    <p class="trip-info__dates">${firstDate}${secondDate}</p>
-  </div > `;
+            <p class="trip-info__dates">${firstDate}${secondDate}</p>
+            </div>`;
 }
 
 class TripInfoMainView extends AbstractView {
   #points = null;
   #destinations = null;
+  #offers = null;
 
-  constructor({ points, destinations }) {
+  constructor({ points, destinations, offers }) {
     super();
 
     this.#points = points;
     this.#destinations = destinations;
+    this.#offers = offers;
   }
 
   get template() {
-    return createTripInfoMainView(this.#points, this.#destinations);
+    return createTripInfoMainTemplate(this.#points, this.#destinations, this.#offers);
   }
 }
 
