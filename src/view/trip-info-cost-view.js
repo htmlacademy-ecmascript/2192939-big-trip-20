@@ -8,7 +8,7 @@ function createTripInfoCostView(points, offers) {
     costOffers += getPointOffers(point, offers).reduce((sum, offer) => sum + offer.price, 0);
   }
 
-  return `<p class="trip-info__cost">
+  return /*html*/`<p class="trip-info__cost">
 Total: &euro;&nbsp;<span class="trip-info__cost-value">${costPoints + costOffers}</span>
             </p >`;
 }

@@ -1,76 +1,91 @@
-import { render, replace } from '../framework/render.js';
+import { render, RenderPosition } from '../framework/render.js';
 import SortView from '../view/sort-view.js';
 import ListPointView from '../view/list-point-view.js';
-import PointView from '../view/point-view.js';
-import EditPointForm from '../view/edit-point-form-view.js';
 import NoPointView from '../view/no-point-view.js';
-
+import PointPresenter from './point-presenter.js';
+import { updatePoint } from '../utils/points.js';
 
 class PagePresenter {
   #pagePoints = null;
   #pageDestinations = null;
   #pageOffers = null;
+  #tripEventsContainer = null;
 
-  #listPointContainer = new ListPointView();
-  #tripEventsContainer = document.querySelector('.trip-events');
+  #listPointComponent = new ListPointView();
+  #sortPointComponent = new SortView();
+  #noPointComponent = new NoPointView();
 
-  constructor({ pagePoints, pageDestinations, pageOffers }) {
+  #pointPresenters = new Map();
+
+  constructor({
+    pagePoints,
+    pageDestinations,
+    pageOffers,
+    tripEventsContainer,
+  }) {
     this.#pagePoints = pagePoints;
     this.#pageDestinations = pageDestinations;
     this.#pageOffers = pageOffers;
-    render(new SortView(), this.#tripEventsContainer);
-    this.#renderListPoint(this.#pagePoints, this.#listPointContainer, this.#tripEventsContainer);
-    this.#pagePoints.forEach((pagePoint) => this.#renderPoint(pagePoint, this.#pageDestinations, this.#pageOffers));
+    this.#tripEventsContainer = tripEventsContainer;
+
+    this.#renderListPoint(this.#pagePoints, this.#listPointComponent, this.#tripEventsContainer);
+
   }
 
-  #renderListPoint(points, listPointContainer, tripEventsContainer) {
+  #renderListPoint(points, listPointComponent, tripEventsContainer) {
     if (!points.length) {
-      render(new NoPointView(), tripEventsContainer);
-    } else {
-      render(listPointContainer, tripEventsContainer);
+      this.#renderNoPointComponent();
+      return;
     }
+
+    this.#renderSort();
+    this.#renderListPointComponent(listPointComponent, tripEventsContainer);
+    this.#pagePoints.forEach((pagePoint) =>
+      this.#renderPoint(pagePoint,
+        this.#pageDestinations,
+        this.#pageOffers));
+  }
+
+  #handleModeChange = () => {
+    this.#pointPresenters.forEach((presenter) => {
+      presenter.resetView();
+    }
+    );
+  };
+
+  #handlePointChange = (updatedPoint) => {
+    this.#pagePoints = updatePoint(this.#pagePoints, updatedPoint);
+    this.#pointPresenters.get(updatedPoint.id).init(updatedPoint, this.#pageDestinations, this.#pageOffers);
+  };
+
+
+  #renderListPointComponent(listPointComponent, tripEventsContainer) {
+    render(listPointComponent, tripEventsContainer);
+  }
+
+  #renderSort() {
+    render(this.#sortPointComponent, this.#tripEventsContainer, RenderPosition.AFTERBEGIN);
   }
 
   #renderPoint(point, destinations, offers) {
-    const escKeyDownHandler = (evt) => {
-      if (evt.key === 'Escape') {
-        evt.preventDefault();
-        replaceFormToPoint();
-      }
-      document.removeEventListener('keydown', escKeyDownHandler);
-    };
-
-    const pointComponent = new PointView({
-      point,
-      destinations,
-      offers,
-      onEditClick: () => {
-        replacePointToForm();
-        document.addEventListener('keydown', escKeyDownHandler);
-      }
+    const pointPresenter = new PointPresenter({
+      listPointContainer:
+        this.#listPointComponent.element,
+      onDataChange: this.#handlePointChange,
+      onModeChange: this.#handleModeChange,
     });
 
-    const pointEditComponent = new EditPointForm({
-      point, destinations, offers,
-      onFormSubmit: () => {
-        replaceFormToPoint();
-        document.removeEventListener('keydown', escKeyDownHandler);
-      },
-      onFormClose: () => {
-        replaceFormToPoint();
-        document.removeEventListener('keydown', escKeyDownHandler);
-      }
-    });
+    pointPresenter.init(point, destinations, offers);
+    this.#pointPresenters.set(point.id, pointPresenter);
+  }
 
-    function replacePointToForm() {
-      replace(pointEditComponent, pointComponent);
-    }
+  #clearPointList() {
+    this.#pointPresenters.forEach((presenter) => presenter.destroy());
+    this.#pointPresenters.clear();
+  }
 
-    function replaceFormToPoint() {
-      replace(pointComponent, pointEditComponent);
-    }
-
-    render(pointComponent, this.#listPointContainer.element);
+  #renderNoPointComponent() {
+    render(this.#noPointComponent, this.#tripEventsContainer, RenderPosition.AFTERBEGIN);
   }
 }
 

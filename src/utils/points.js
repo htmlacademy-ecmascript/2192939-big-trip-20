@@ -16,5 +16,9 @@ function getPointDestination(point, destinations) {
   return destinations.find((destination) => point.id === destination.id);
 }
 
+function updatePoint(points, update) {
+  return points.map((point) => point.id === update.id ? update : point);
+}
 
-export { getPointOffers, getPointDestination, getPointAllOffers };
+
+export { getPointOffers, getPointDestination, getPointAllOffers, updatePoint };
