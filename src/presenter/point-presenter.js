@@ -13,8 +13,11 @@ class PointPresenter {
   #pointComponent = null;
   #pointEditComponent = null;
 
-  constructor({ listPointContainer }) {
+  #handleDataChange = null;
+
+  constructor({ listPointContainer, onDataChange }) {
     this.#listPointContainer = listPointContainer;
+    this.#handleDataChange = onDataChange;
   }
 
   init(point, destinations, offers) {
@@ -30,7 +33,7 @@ class PointPresenter {
       destinations: this.#destinations,
       offers: this.#offers,
       onEditClick: this.#handleEditClick,
-
+      onFavoriteClick: this.#handleFavoriteClick,
     });
 
     this.#pointEditComponent = new EditPointForm({
@@ -44,6 +47,7 @@ class PointPresenter {
 
     if (prevPointComponent === null || prevPointEditComponent === null) {
       render(this.#pointComponent, this.#listPointContainer);
+      return;
     }
 
     if (this.#pointComponent.contains(prevPointComponent.elment)) {
@@ -84,7 +88,8 @@ class PointPresenter {
     document.addEventListener('keydown', this.#escKeyDownHandler);
   };
 
-  #handleFormSubmit = () => {
+  #handleFormSubmit = (point) => {
+    this.#handleDataChange(point);
     this.#replaceFormToPoint();
     document.removeEventListener('keydown', this.#escKeyDownHandler);
   };
@@ -92,6 +97,10 @@ class PointPresenter {
   #handleFormClose = () => {
     this.#replaceFormToPoint();
     document.removeEventListener('keydown', this.#escKeyDownHandler);
+  };
+
+  #handleFavoriteClick = () => {
+    this.#handleDataChange({ ...this.#point, isFavorite: !this.#point.isFavorite });
   };
 
 }

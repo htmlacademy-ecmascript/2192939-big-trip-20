@@ -46,10 +46,10 @@ class PagePresenter {
         this.#pageOffers));
   }
 
-  #handlePointUpdate(updatedPoint) {
+  #handlePointChange = (updatedPoint) => {
     this.#pagePoints = updatePoint(this.#pagePoints, updatedPoint);
-    this.#pointPresenters.get(updatedPoint).init(updatedPoint);
-  }
+    this.#pointPresenters.get(updatedPoint.id).init(updatedPoint, this.#pageDestinations, this.#pageOffers);
+  };
 
 
   #renderListPointComponent(listPointComponent, tripEventsContainer) {
@@ -63,11 +63,12 @@ class PagePresenter {
   #renderPoint(point, destinations, offers) {
     const pointPresenter = new PointPresenter({
       listPointContainer:
-        this.#listPointComponent.element
+        this.#listPointComponent.element,
+      onDataChange: this.#handlePointChange,
     });
 
     pointPresenter.init(point, destinations, offers);
-    this.#pointPresenters.set(pointPresenter);
+    this.#pointPresenters.set(point.id, pointPresenter);
   }
 
   #clearPointList() {

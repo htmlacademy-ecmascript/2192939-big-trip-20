@@ -17,7 +17,7 @@ function getPointDestination(point, destinations) {
 }
 
 function updatePoint(points, update) {
-  return points.map((point) => point.id === update.date ? update : point);
+  return points.map((point) => point.id === update.id ? update : point);
 }
 
 
