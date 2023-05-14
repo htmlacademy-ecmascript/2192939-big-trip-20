@@ -46,6 +46,13 @@ class PagePresenter {
         this.#pageOffers));
   }
 
+  #handleModeChange = () => {
+    this.#pointPresenters.forEach((presenter) => {
+      presenter.resetView();
+    }
+    );
+  };
+
   #handlePointChange = (updatedPoint) => {
     this.#pagePoints = updatePoint(this.#pagePoints, updatedPoint);
     this.#pointPresenters.get(updatedPoint.id).init(updatedPoint, this.#pageDestinations, this.#pageOffers);
@@ -65,6 +72,7 @@ class PagePresenter {
       listPointContainer:
         this.#listPointComponent.element,
       onDataChange: this.#handlePointChange,
+      onModeChange: this.#handleModeChange,
     });
 
     pointPresenter.init(point, destinations, offers);
