@@ -27,7 +27,6 @@ class PointPresenter {
 
     const prevPointComponent = this.#pointComponent;
     const prevPointEditComponent = this.#pointEditComponent;
-
     this.#pointComponent = new PointView({
       point: this.#point,
       destinations: this.#destinations,
@@ -50,12 +49,12 @@ class PointPresenter {
       return;
     }
 
-    if (this.#pointComponent.contains(prevPointComponent.elment)) {
+    if (this.#listPointContainer.contains(prevPointComponent.element)) {
       replace(this.#pointComponent, prevPointComponent);
     }
 
-    if (this.#pointEditComponent.contains(prevPointEditComponent)) {
-      replace(this.#pointEditComponent, prevPointEditComponent.element);
+    if (this.#listPointContainer.contains(prevPointEditComponent.element)) {
+      replace(this.#pointEditComponent, prevPointEditComponent);
     }
 
     remove(prevPointComponent);
@@ -102,7 +101,6 @@ class PointPresenter {
   #handleFavoriteClick = () => {
     this.#handleDataChange({ ...this.#point, isFavorite: !this.#point.isFavorite });
   };
-
 }
 
 export default PointPresenter;
