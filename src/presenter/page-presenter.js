@@ -3,6 +3,7 @@ import SortView from '../view/sort-view.js';
 import ListPointView from '../view/list-point-view.js';
 import NoPointView from '../view/no-point-view.js';
 import PointPresenter from './point-presenter.js';
+import { updatePoint } from '../utils/points.js';
 
 class PagePresenter {
   #pagePoints = null;
@@ -13,6 +14,8 @@ class PagePresenter {
   #listPointComponent = new ListPointView();
   #sortPointComponent = new SortView();
   #noPointComponent = new NoPointView();
+
+  #pointPresenters = new Map();
 
   constructor({
     pagePoints,
@@ -43,6 +46,11 @@ class PagePresenter {
         this.#pageOffers));
   }
 
+  #handlePointUpdate(updatedPoint) {
+    this.#pagePoints = updatePoint(this.#pagePoints, updatedPoint);
+    this.#pointPresenters.get(updatedPoint).init(updatedPoint);
+  }
+
 
   #renderListPointComponent(listPointComponent, tripEventsContainer) {
     render(listPointComponent, tripEventsContainer);
@@ -59,6 +67,12 @@ class PagePresenter {
     });
 
     pointPresenter.init(point, destinations, offers);
+    this.#pointPresenters.set(pointPresenter);
+  }
+
+  #clearPointList() {
+    this.#pointPresenters.forEach((presenter) => presenter.destroy());
+    this.#pointPresenters.clear();
   }
 
   #renderNoPointComponent() {
