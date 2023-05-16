@@ -1,4 +1,4 @@
-
+import dayjs from 'dayjs';
 
 function getPointOffers(point, offers) {
   const correctOffer = offers.find((offer) => offer.type === point.type);
@@ -20,5 +20,23 @@ function updatePoint(points, update) {
   return points.map((point) => point.id === update.id ? update : point);
 }
 
+function durationPoint(point) {
+  return dayjs(point.dateTo).diff(dayjs(point.dateFrom));
+}
 
-export { getPointOffers, getPointDestination, getPointAllOffers, updatePoint };
+function sortPointByTime(points) {
+  return points.sort((a, b) => durationPoint(b) - durationPoint(a));
+}
+
+function sortPointByPrice(points) {
+  return points.sort((a, b) => b.basePrice - a.basePrice);
+}
+
+export {
+  getPointOffers,
+  getPointDestination,
+  getPointAllOffers,
+  updatePoint,
+  sortPointByTime,
+  sortPointByPrice,
+};

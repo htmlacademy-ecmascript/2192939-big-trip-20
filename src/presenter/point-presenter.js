@@ -53,12 +53,12 @@ class PointPresenter {
     });
     render(this.#pointComponent, this.#listPointContainer);
 
-    if (prevPointComponent === null || prevPointEditComponent === null) {
+    if (!prevPointComponent || !prevPointEditComponent) {
       render(this.#pointComponent, this.#listPointContainer);
       return;
     }
 
-    if (this.#mode === Mode.Default) {
+    if (this.#listPointContainer.contains(prevPointComponent.element)) {
       replace(this.#pointComponent, prevPointComponent);
     }
 

@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 
-const EnumTime = {
+const ETime = {
   MsInMinute: 1000 * 60,
   MsInHour: 1000 * 60 * 60,
   MsInDay: 1000 * 60 * 60 * 24,
@@ -12,13 +12,13 @@ dayjs.extend(duration);
 function getTimeTravel(date1, date2) {
   const timeDiff = dayjs(date2).diff(dayjs(date1));
 
-  if (timeDiff >= EnumTime.MsInDay) {
+  if (timeDiff >= ETime.MsInDay) {
     return dayjs.duration(timeDiff).format('DD[D] HH[H] mm[M]');
   }
-  if (timeDiff >= EnumTime.MsInHour) {
+  if (timeDiff >= ETime.MsInHour) {
     return dayjs.duration(timeDiff).format('HH[H] mm[M]');
   }
-  if (timeDiff < EnumTime.MsInMinute) {
+  if (timeDiff < ETime.MsInMinute) {
     return dayjs.duration(timeDiff).format('mm[M]');
   }
 }
