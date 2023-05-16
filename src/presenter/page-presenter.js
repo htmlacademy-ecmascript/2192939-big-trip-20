@@ -3,7 +3,8 @@ import SortView from '../view/sort-view.js';
 import ListPointView from '../view/list-point-view.js';
 import NoPointView from '../view/no-point-view.js';
 import PointPresenter from './point-presenter.js';
-import { updatePoint } from '../utils/points.js';
+import { updatePoint, sortPointByTime, sortPointByPrice, } from '../utils/points.js';
+import { SortType } from '../utils/const.js';
 
 class PagePresenter {
   #pagePoints = null;
@@ -11,11 +12,13 @@ class PagePresenter {
   #pageOffers = null;
   #tripEventsContainer = null;
 
+  #sortPointComponent = null;
   #listPointComponent = new ListPointView();
-  #sortPointComponent = new SortView();
   #noPointComponent = new NoPointView();
 
   #pointPresenters = new Map();
+  #currentSortType = SortType.DEFAULT;
+  #sourcedPagePoints = [];
 
   constructor({
     pagePoints,
@@ -27,7 +30,9 @@ class PagePresenter {
     this.#pageDestinations = pageDestinations;
     this.#pageOffers = pageOffers;
     this.#tripEventsContainer = tripEventsContainer;
+    this.#sourcedPagePoints = [...this.#pagePoints];
 
+    this.#renderSort();
     this.#renderListPoint(this.#pagePoints, this.#listPointComponent, this.#tripEventsContainer);
 
   }
@@ -38,7 +43,6 @@ class PagePresenter {
       return;
     }
 
-    this.#renderSort();
     this.#renderListPointComponent(listPointComponent, tripEventsContainer);
     this.#pagePoints.forEach((pagePoint) =>
       this.#renderPoint(pagePoint,
@@ -46,17 +50,20 @@ class PagePresenter {
         this.#pageOffers));
   }
 
-  #handleModeChange = () => {
-    this.#pointPresenters.forEach((presenter) => {
-      presenter.resetView();
+  #sortPoints(sortType) {
+    switch (sortType) {
+      case SortType.TIME:
+        this.#pagePoints = [...sortPointByTime(this.#pagePoints)];
+        break;
+      case SortType.PRICE:
+        this.#pagePoints = [...sortPointByPrice(this.#pagePoints)];
+        break;
+      default:
+        this.#pagePoints = [...this.#sourcedPagePoints];
     }
-    );
-  };
 
-  #handlePointChange = (updatedPoint) => {
-    this.#pagePoints = updatePoint(this.#pagePoints, updatedPoint);
-    this.#pointPresenters.get(updatedPoint.id).init(updatedPoint, this.#pageDestinations, this.#pageOffers);
-  };
+    this.#currentSortType = sortType;
+  }
 
 
   #renderListPointComponent(listPointComponent, tripEventsContainer) {
@@ -64,6 +71,9 @@ class PagePresenter {
   }
 
   #renderSort() {
+    this.#sortPointComponent = new SortView({
+      onSortTypeChange: this.#handleSortTypeChange,
+    });
     render(this.#sortPointComponent, this.#tripEventsContainer, RenderPosition.AFTERBEGIN);
   }
 
@@ -79,7 +89,7 @@ class PagePresenter {
     this.#pointPresenters.set(point.id, pointPresenter);
   }
 
-  #clearPointList() {
+  #clearListPoint() {
     this.#pointPresenters.forEach((presenter) => presenter.destroy());
     this.#pointPresenters.clear();
   }
@@ -87,6 +97,29 @@ class PagePresenter {
   #renderNoPointComponent() {
     render(this.#noPointComponent, this.#tripEventsContainer, RenderPosition.AFTERBEGIN);
   }
+
+  #handleSortTypeChange = (sortType) => {
+    if (this.#currentSortType === sortType) {
+      return;
+    }
+
+    this.#sortPoints(sortType);
+    this.#clearListPoint();
+    this.#renderListPoint(this.#pagePoints, this.#listPointComponent, this.#tripEventsContainer);
+  };
+
+  #handlePointChange = (updatedPoint) => {
+    this.#pagePoints = updatePoint(this.#pagePoints, updatedPoint);
+    this.#sourcedPagePoints = updatePoint(this.#sourcedPagePoints, updatePoint);
+    this.#pointPresenters.get(updatedPoint.id).init(updatedPoint, this.#pageDestinations, this.#pageOffers);
+  };
+
+  #handleModeChange = () => {
+    this.#pointPresenters.forEach((presenter) => {
+      presenter.resetView();
+    }
+    );
+  };
 }
 
 export default PagePresenter;
