@@ -100,8 +100,8 @@ class PointPresenter {
       evt.preventDefault();
       this.#pointEditComponent.reset(this.#point);
       this.#replaceFormToPoint();
+      document.removeEventListener('keydown', this.#escKeyDownHandler);
     }
-    document.removeEventListener('keydown', this.#escKeyDownHandler);
   };
 
   #handleEditClick = () => {

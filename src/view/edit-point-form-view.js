@@ -218,6 +218,7 @@ class EditPointForm extends AbstractStatefulView {
   };
 
   #destinationChangeHandler = (evt) => {
+    evt.preventDefault();
     this.updateElement({
       destination: getPointDestinationId(this.#destinations, evt.target.value)
     });
