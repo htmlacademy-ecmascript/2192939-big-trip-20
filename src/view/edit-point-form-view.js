@@ -1,13 +1,17 @@
 import dayjs from 'dayjs';
-import { getPointAllOffers, getPointDestination, getPointOffersId } from '../utils/points.js';
-import { getRandomInteger } from '../utils/common.js';
+import {
+  getPointAllOffers,
+  getPointDestination,
+  getPointOffersId,
+  getPointDestinationId
+} from '../utils/points.js';
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 
 const createPointOfferList = (pointOffers) => {
   let pointList = '';
   pointOffers.forEach((pointOffer) => {
     pointList += `<div class="event__offer-selector">
-      <input class="event__offer-checkbox  visually-hidden" id="event-offer-${pointOffer.id}" type="checkbox" name="event-offer-luggage" ${getRandomInteger(0, 1) ? 'checked' : ''}>
+      <input class="event__offer-checkbox  visually-hidden" id="event-offer-${pointOffer.id}" type="checkbox" name="event-offer-luggage" }>
       <label class="event__offer-label" for="event-offer-${pointOffer.id}">
         <span class="event__offer-title">${pointOffer.title}</span>
         &plus;&euro;&nbsp;
@@ -179,16 +183,24 @@ class EditPointForm extends AbstractStatefulView {
     return { ...point };
   }
 
+  #parseStateToPoint(state) {
+    return { ...state };
+  }
+
+  reset(point) {
+    this.updateElement(this.#parsePointToState(point));
+  }
+
   _restoreHandlers() {
     this.element.querySelector('.event--edit').addEventListener('submit', this.#formSubmitHandler);
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#formCloseHandler);
     this.element.querySelector('.event__type-group').addEventListener('click', this.#typeChangeHandler);
-
+    this.element.querySelector('.event__input--destination').addEventListener('change', this.#destinationChangeHandler);
   }
 
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
-    this.#handleFormSubmit(this.#point);
+    this.#handleFormSubmit(this.#parseStateToPoint(this._state));
   };
 
   #formCloseHandler = (evt) => {
@@ -203,6 +215,12 @@ class EditPointForm extends AbstractStatefulView {
         offers: getPointOffersId(this.#offers, evt.target.value),
       });
     }
+  };
+
+  #destinationChangeHandler = (evt) => {
+    this.updateElement({
+      destination: getPointDestinationId(this.#destinations, evt.target.value)
+    });
   };
 }
 

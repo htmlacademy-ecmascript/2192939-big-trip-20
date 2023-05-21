@@ -17,7 +17,11 @@ function getPointOffersId(offers, offersType) {
 }
 
 function getPointDestination(point, destinations) {
-  return destinations.find((destination) => point.id === destination.id);
+  return destinations.find((destination) => point.destination === destination.id);
+}
+
+function getPointDestinationId(destinations, destinationName) {
+  return destinations.find((destination) => destinationName === destination.name).id;
 }
 
 function updatePoint(points, update) {
@@ -39,6 +43,7 @@ function sortPointByPrice(points) {
 export {
   getPointOffers,
   getPointDestination,
+  getPointDestinationId,
   getPointAllOffers,
   getPointOffersId,
   updatePoint,
