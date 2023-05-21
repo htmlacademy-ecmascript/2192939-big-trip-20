@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
-import { getPointAllOffers, getPointDestination } from '../utils/points.js';
+import { getPointAllOffers, getPointDestination, getPointOffersId } from '../utils/points.js';
 import { getRandomInteger } from '../utils/common.js';
-import AbstractView from '../framework/view/abstract-view.js';
+import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 
 const createPointOfferList = (pointOffers) => {
   let pointList = '';
@@ -150,7 +150,7 @@ function createEditPointFormView(point, destinations, offers) {
 </li>`;
 }
 
-class EditPointForm extends AbstractView {
+class EditPointForm extends AbstractStatefulView {
   #point = null;
   #destinations = null;
   #offers = null;
@@ -161,17 +161,29 @@ class EditPointForm extends AbstractView {
   constructor({ point, destinations, offers, onFormSubmit, onFormClose }) {
     super();
     this.#point = point;
+    this._setState(this.#parsePointToState(this.#point));
     this.#destinations = destinations;
     this.#offers = offers;
 
     this.#handleFormSubmit = onFormSubmit;
     this.#handleFormClose = onFormClose;
-    this.element.querySelector('.event--edit').addEventListener('submit', this.#formSubmitHandler);
-    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#formCloseHandler);
+
+    this._restoreHandlers();
   }
 
   get template() {
-    return createEditPointFormView(this.#point, this.#destinations, this.#offers);
+    return createEditPointFormView(this._state, this.#destinations, this.#offers);
+  }
+
+  #parsePointToState(point) {
+    return { ...point };
+  }
+
+  _restoreHandlers() {
+    this.element.querySelector('.event--edit').addEventListener('submit', this.#formSubmitHandler);
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#formCloseHandler);
+    this.element.querySelector('.event__type-group').addEventListener('click', this.#typeChangeHandler);
+
   }
 
   #formSubmitHandler = (evt) => {
@@ -182,6 +194,15 @@ class EditPointForm extends AbstractView {
   #formCloseHandler = (evt) => {
     evt.preventDefault();
     this.#handleFormClose();
+  };
+
+  #typeChangeHandler = (evt) => {
+    if (evt.target.tagName === 'INPUT') {
+      this.updateElement({
+        type: evt.target.value,
+        offers: getPointOffersId(this.#offers, evt.target.value),
+      });
+    }
   };
 }
 
