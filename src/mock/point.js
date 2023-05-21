@@ -129,13 +129,13 @@ const mockPoints = [
 const mockDestinations = [
   {
     'id': '1',
-    'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    'description': 'Paris: Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
     'name': 'Paris',
     'pictures': []
   },
   {
     'id': '2',
-    'description': 'Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.',
+    'description': 'London: Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.',
     'name': 'London',
     'pictures': [
       {
@@ -150,7 +150,7 @@ const mockDestinations = [
   },
   {
     'id': '3',
-    'description': 'Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum.',
+    'description': 'Berlin: Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum.',
     'name': 'Berlin',
     'pictures': [
       {
@@ -169,7 +169,7 @@ const mockDestinations = [
   },
   {
     'id': '4',
-    'description': 'Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis.',
+    'description': 'Vienna: Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis.',
     'name': 'Vienna',
     'pictures': [
       {
@@ -192,7 +192,7 @@ const mockDestinations = [
   },
   {
     'id': '5',
-    'description': 'Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.',
+    'description': 'Prague: Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.',
     'name': 'Prague',
     'pictures': [
       {
@@ -203,7 +203,7 @@ const mockDestinations = [
   },
   {
     'id': '6',
-    'description': 'Fusce tristique felis at fermentum pharetra.',
+    'description': 'Dublin: Fusce tristique felis at fermentum pharetra.',
     'name': 'Dublin',
     'pictures': [
       {
@@ -218,7 +218,7 @@ const mockDestinations = [
   },
   {
     'id': '7',
-    'description': 'Cras aliquet varius magna, non porta ligula feugiat eget',
+    'description': 'Madrid: Cras aliquet varius magna, non porta ligula feugiat eget',
     'name': 'Madrid',
     'pictures': [
       {
@@ -229,7 +229,7 @@ const mockDestinations = [
   },
   {
     'id': '8',
-    'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    'description': 'Barselona: Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
     'name': 'Barselona',
     'pictures': [
       {
@@ -240,7 +240,7 @@ const mockDestinations = [
   },
   {
     'id': '9',
-    'description': 'Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus..',
+    'description': 'Rome: Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus..',
     'name': 'Rome',
     'pictures': [
       {
