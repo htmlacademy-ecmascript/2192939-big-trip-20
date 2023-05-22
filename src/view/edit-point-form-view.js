@@ -32,7 +32,7 @@ function createPointPictureList(pointDestination) {
   return pointPhotoList;
 }
 
-function createEditPointFormView(point, destinations, offers) {
+function createEditPointFormTemplate(point, destinations, offers) {
   const pointOffers = getPointAllOffers(point, offers).offers;
   const pointDestination = getPointDestination(point, destinations);
 
@@ -156,7 +156,7 @@ function createEditPointFormView(point, destinations, offers) {
 </li>`;
 }
 
-class EditPointForm extends AbstractStatefulView {
+class EditPointFormView extends AbstractStatefulView {
   #point = null;
   #destinations = null;
   #offers = null;
@@ -180,7 +180,7 @@ class EditPointForm extends AbstractStatefulView {
   }
 
   get template() {
-    return createEditPointFormView(this._state, this.#destinations, this.#offers);
+    return createEditPointFormTemplate(this._state, this.#destinations, this.#offers);
   }
 
   removeElement() {
@@ -278,4 +278,4 @@ class EditPointForm extends AbstractStatefulView {
   };
 }
 
-export default EditPointForm;
+export default EditPointFormView;

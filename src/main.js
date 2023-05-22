@@ -9,10 +9,6 @@ const offersModel = new OffersModel();
 
 const tripEventsContainer = document.querySelector('.trip-events');
 
-new RootPresenter({
-  pointsModel,
-  destinationsModel,
-  offersModel,
-  tripEventsContainer,
-});
+const rootPresenter = new RootPresenter({ tripEventsContainer });
 
+rootPresenter.init(pointsModel, destinationsModel, offersModel);

@@ -21,15 +21,15 @@ class PagePresenter {
   #sourcedPagePoints = [];
 
   constructor({
-    pagePoints,
-    pageDestinations,
-    pageOffers,
     tripEventsContainer,
   }) {
+    this.#tripEventsContainer = tripEventsContainer;
+  }
+
+  init(pagePoints, pageDestinations, pageOffers) {
     this.#pagePoints = pagePoints;
     this.#pageDestinations = pageDestinations;
     this.#pageOffers = pageOffers;
-    this.#tripEventsContainer = tripEventsContainer;
     this.#sourcedPagePoints = [...this.#pagePoints];
 
     this.#renderSort();

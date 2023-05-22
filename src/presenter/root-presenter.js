@@ -9,28 +9,24 @@ class RootPresenter {
   #headerPresenter = null;
   #pagePresenter = null;
 
-  constructor({
-    pointsModel,
-    destinationsModel,
-    offersModel,
-    tripEventsContainer,
-  }) {
+  constructor({ tripEventsContainer }) {
+    this.#tripEventsContainer = tripEventsContainer;
+  }
+
+  init(pointsModel, destinationsModel, offersModel) {
     this.#pagePoints = [...pointsModel.points];
     this.#pageDestinations = [...destinationsModel.destinations];
-    this.#pageOffers = offersModel.offers;
-    this.#tripEventsContainer = tripEventsContainer;
+    this.#pageOffers = [...offersModel.offers];
 
-    this.#headerPresenter = new HeaderPresenter({
+    this.#headerPresenter = new HeaderPresenter();
+    this.#pagePresenter = new PagePresenter({ tripEventsContainer: this.#tripEventsContainer });
+
+    this.#headerPresenter.init({
       pagePoints: this.#pagePoints,
       pageDestinations: this.#pageDestinations,
       pageOffers: this.#pageOffers,
     });
-    this.#pagePresenter = new PagePresenter({
-      pagePoints: this.#pagePoints,
-      pageDestinations: this.#pageDestinations,
-      pageOffers: this.#pageOffers,
-      tripEventsContainer: this.#tripEventsContainer,
-    });
+    this.#pagePresenter.init(this.#pagePoints, this.#pageDestinations, this.#pageOffers,);
   }
 
 }

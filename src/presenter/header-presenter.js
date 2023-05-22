@@ -19,8 +19,7 @@ class HeaderPresenter extends AbstractView {
   #tripInfoCostComponent = null;
   #tripInfoComponent = null;
 
-  constructor({ pagePoints, pageDestinations, pageOffers }) {
-    super();
+  init({ pagePoints, pageDestinations, pageOffers }) {
     this.#pagePoints = pagePoints;
     this.#pageDestinations = pageDestinations;
     this.#pageOffers = pageOffers;
@@ -36,10 +35,7 @@ class HeaderPresenter extends AbstractView {
       points: this.#pagePoints,
       offers: this.#pageOffers
     });
-    this.#renderHeader();
-  }
 
-  #renderHeader() {
     if (!this.#pagePoints.length) {
       this.#renderFilters();
       return;
@@ -50,6 +46,7 @@ class HeaderPresenter extends AbstractView {
     this.#renderTripInfoMain();
     this.#renderTripInfoCost();
   }
+
 
   #renderTripInfo() {
     render(this.#tripInfoComponent, tripMainContainer, RenderPosition.AFTERBEGIN);

@@ -43,16 +43,15 @@ class TripInfoMainView extends AbstractView {
   #destinations = null;
   #offers = null;
 
-  constructor({ points, destinations, offers }) {
+  constructor({ points, destinations }) {
     super();
 
     this.#points = points;
     this.#destinations = destinations;
-    this.#offers = offers;
   }
 
   get template() {
-    return createTripInfoMainTemplate(this.#points, this.#destinations, this.#offers);
+    return createTripInfoMainTemplate(this.#points, this.#destinations);
   }
 }
 
