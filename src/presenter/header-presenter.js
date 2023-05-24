@@ -1,10 +1,9 @@
 import { RenderPosition, render, remove } from '../framework/render.js';
-import FilterView from '../view/filter-view.js';
 import TripInfoView from '../view/trip-info-view.js';
 import TripInfoMainView from '../view/trip-info-main-view.js';
 import TripInfoCostView from '../view/trip-info-cost-view.js';
 import AbstractView from '../framework/view/abstract-view.js';
-import { generateFilter } from '../mock/filter.js';
+import FilterPresenter from './filter-presenter.js';
 
 const tripMainContainer = document.querySelector('.trip-main');
 const filtersContainer = document.querySelector('.trip-controls__filters');
@@ -17,10 +16,11 @@ class HeaderPresenter extends AbstractView {
   #destinationsModel = null;
   #offersModel = null;
   #filters = null;
-  #filtersComponent = null;
+  #filtersPresenter = null;
   #tripInfoMainComponent = null;
   #tripInfoCostComponent = null;
   #tripInfoComponent = null;
+  #filterModel = null;
 
   /**
    *
@@ -29,14 +29,20 @@ class HeaderPresenter extends AbstractView {
    * @param {Array.<objects>} offersModel предложения точек маршрута
    */
 
-  constructor({ pointsModel, destinationsModel, offersModel }) {
+  constructor({ pointsModel, destinationsModel, offersModel, filterModel }) {
     super();
     this.#pointsModel = pointsModel;
     this.#destinationsModel = destinationsModel;
     this.#offersModel = offersModel;
+    this.#filterModel = filterModel;
+
     this.#tripInfoComponent = new TripInfoView();
-    this.#filters = generateFilter(this.points);
-    this.#filtersComponent = new FilterView(this.#filters);
+    this.#filters = [{ type: 'everything', count: 0, }];
+    this.#filtersPresenter = new FilterPresenter({
+      filterContainer: filtersContainer,
+      filterModel: this.#filterModel,
+      pointsModel: this.#pointsModel,
+    });
     this.#tripInfoMainComponent = new TripInfoMainView({
       points: this.points,
       destinations: this.destinations,
@@ -76,12 +82,12 @@ class HeaderPresenter extends AbstractView {
 
   init() {
     if (!this.points.length) {
-      this.#renderFilters();
+      this.#filtersPresenter.init();
       return;
     }
 
     this.#renderTripInfo();
-    this.#renderFilters();
+    this.#filtersPresenter.init();
     this.#renderTripInfoMain();
     this.#renderTripInfoCost();
   }
@@ -91,9 +97,9 @@ class HeaderPresenter extends AbstractView {
     render(this.#tripInfoComponent, tripMainContainer, RenderPosition.AFTERBEGIN);
   }
 
-  #renderFilters() {
-    render(this.#filtersComponent, filtersContainer);
-  }
+  // #renderFilters() {
+  //   render(this.#filtersComponent, filtersContainer);
+  // }
 
   #renderTripInfoMain() {
     render(this.#tripInfoMainComponent, this.#tripInfoComponent.element, RenderPosition.AFTERBEGIN);

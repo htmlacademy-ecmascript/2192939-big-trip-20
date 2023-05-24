@@ -5,6 +5,7 @@ import NoPointView from '../view/no-point-view.js';
 import PointPresenter from './point-presenter.js';
 import { sortPointByTime, sortPointByPrice, } from '../utils/points.js';
 import { SortType, UpdateType, UserAction } from '../utils/const.js';
+import { filter } from '../utils/filter.js';
 
 /**
  * @class отвечает за отрисовку основного содержимого страницы
@@ -13,6 +14,7 @@ class PagePresenter {
   #pointsModel = null;
   #destinationsModel = null;
   #offersModel = null;
+  #filterModel = null;
   #tripEventsContainer = null;
 
   #sortPointComponent = null;
@@ -34,13 +36,16 @@ class PagePresenter {
     pointsModel,
     destinationsModel,
     offersModel,
+    filterModel,
   }) {
     this.#tripEventsContainer = tripEventsContainer;
     this.#pointsModel = pointsModel;
     this.#destinationsModel = destinationsModel;
     this.#offersModel = offersModel;
+    this.#filterModel = filterModel;
 
     this.#pointsModel.addObserver(this.#handleModeEvent);
+    this.#filterModel.addObserver(this.#handleModeEvent);
   }
 
   /**
@@ -48,13 +53,17 @@ class PagePresenter {
    * @returns {Array.<objects>} отсортированный массив точек
    */
   get points() {
+    const filterType = this.#filterModel.filter;
+    const points = this.#pointsModel.points;
+    const filteredPoints = filter[filterType](points);
+
     switch (this.#currentSortType) {
       case SortType.TIME:
-        return sortPointByTime(this.#pointsModel.points);
+        return sortPointByTime(filteredPoints);
       case SortType.PRICE:
-        return sortPointByPrice(this.#pointsModel.points);
+        return sortPointByPrice(filteredPoints);
     }
-    return this.#pointsModel.points;
+    return filteredPoints;
   }
 
   /**
