@@ -1,4 +1,4 @@
-import { RenderPosition, render } from '../framework/render.js';
+import { RenderPosition, render, remove } from '../framework/render.js';
 import FilterView from '../view/filter-view.js';
 import TripInfoView from '../view/trip-info-view.js';
 import TripInfoMainView from '../view/trip-info-main-view.js';
@@ -37,11 +37,16 @@ class HeaderPresenter extends AbstractView {
     this.#tripInfoComponent = new TripInfoView();
     this.#filters = generateFilter(this.points);
     this.#filtersComponent = new FilterView(this.#filters);
-    this.#tripInfoMainComponent = new TripInfoMainView();
+    this.#tripInfoMainComponent = new TripInfoMainView({
+      points: this.points,
+      destinations: this.destinations,
+    });
     this.#tripInfoCostComponent = new TripInfoCostView({
       points: this.points,
       offers: this.offers
     });
+
+    this.#pointsModel.addObserver(this.#handleModeEvent);
   }
 
   /**
@@ -91,10 +96,6 @@ class HeaderPresenter extends AbstractView {
   }
 
   #renderTripInfoMain() {
-    this.#tripInfoMainComponent.init({
-      points: this.points,
-      destinations: this.destinations,
-    });
     render(this.#tripInfoMainComponent, this.#tripInfoComponent.element, RenderPosition.AFTERBEGIN);
   }
 
@@ -105,6 +106,22 @@ class HeaderPresenter extends AbstractView {
     });
     render(this.#tripInfoCostComponent, this.#tripInfoComponent.element);
   }
+
+  #handleModeEvent = () => {
+    remove(this.#tripInfoMainComponent);
+    this.#tripInfoMainComponent = new TripInfoMainView({
+      points: this.points,
+      destinations: this.destinations,
+    });
+    this.#renderTripInfoMain();
+
+    remove(this.#tripInfoCostComponent);
+    this.#tripInfoCostComponent = new TripInfoCostView({
+      points: this.points,
+      offers: this.offers
+    });
+    this.#renderTripInfoCost();
+  };
 }
 
 export default HeaderPresenter;
