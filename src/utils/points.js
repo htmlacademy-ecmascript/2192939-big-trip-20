@@ -17,7 +17,6 @@ function getPointOffersId(offers, offersType) {
 }
 
 function getPointDestination(point, destinations) {
-  console.log(point);
   return destinations.find((destination) => point.destination === destination.id);
 }
 

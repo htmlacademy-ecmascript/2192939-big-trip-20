@@ -108,6 +108,10 @@ class HeaderPresenter extends AbstractView {
   }
 
   #handleModeEvent = () => {
+    if (!this.points.length) {
+      remove(this.#tripInfoComponent);
+      return;
+    }
     remove(this.#tripInfoMainComponent);
     this.#tripInfoMainComponent = new TripInfoMainView({
       points: this.points,

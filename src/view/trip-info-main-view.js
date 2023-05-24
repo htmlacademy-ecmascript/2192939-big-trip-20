@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 
 function createTripInfoTitle(points, destinations) {
   const firstPoint = points.length > 0 ? getPointDestination(points[0], destinations).name : '';
-  const endPoint = getPointDestination(points[points.length - 1], destinations).name;
+  const endPoint = points.length > 1 ? getPointDestination(points[points.length - 1], destinations).name : firstPoint;
 
   let midllePoint = null;
   let tripInfoTitle = '';
