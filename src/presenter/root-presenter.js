@@ -2,9 +2,9 @@ import HeaderPresenter from './header-presenter.js';
 import PagePresenter from './page-presenter.js';
 
 class RootPresenter {
-  #pagePoints = null;
-  #pageDestinations = null;
-  #pageOffers = null;
+  #pointsModel = null;
+  #destinationsModel = null;
+  #offersModel = null;
   #tripEventsContainer = null;
   #headerPresenter = null;
   #pagePresenter = null;
@@ -14,21 +14,25 @@ class RootPresenter {
   }
 
   init(pointsModel, destinationsModel, offersModel) {
-    this.#pagePoints = [...pointsModel.points];
-    this.#pageDestinations = [...destinationsModel.destinations];
-    this.#pageOffers = [...offersModel.offers];
+    this.#pointsModel = pointsModel;
+    this.#destinationsModel = destinationsModel;
+    this.#offersModel = offersModel;
 
-    this.#headerPresenter = new HeaderPresenter();
-    this.#pagePresenter = new PagePresenter({ tripEventsContainer: this.#tripEventsContainer });
-
-    this.#headerPresenter.init({
-      pagePoints: this.#pagePoints,
-      pageDestinations: this.#pageDestinations,
-      pageOffers: this.#pageOffers,
+    this.#headerPresenter = new HeaderPresenter({
+      pointsModel: this.#pointsModel,
+      destinationsModel: this.#destinationsModel,
+      offersModel: this.#offersModel,
     });
-    this.#pagePresenter.init(this.#pagePoints, this.#pageDestinations, this.#pageOffers,);
-  }
+    this.#pagePresenter = new PagePresenter({
+      tripEventsContainer: this.#tripEventsContainer,
+      pointsModel: this.#pointsModel,
+      destinationsModel: this.#destinationsModel,
+      offersModel: this.#offersModel,
+    });
 
+    this.#headerPresenter.init();
+    this.#pagePresenter.init();
+  }
 }
 
 export default RootPresenter;

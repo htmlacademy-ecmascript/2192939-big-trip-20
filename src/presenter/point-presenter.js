@@ -1,13 +1,17 @@
 import { replace, render, remove } from '../framework/render.js';
 import PointView from '../view/point-view.js';
 import EditPointFormView from '../view/edit-point-form-view.js';
+import { UpdateType, UserAction } from '../utils/const.js';
+import { isDateEqual, isPriceEqual } from '../utils/points.js';
 
 const Mode = {
   DEFAULT: 'DEFAULT',
   EDITING: 'EDITING',
 };
 
-
+/**
+ * @class отвечает за взаимодействие представления точки маршрута и модели
+ */
 class PointPresenter {
   #point = null;
   #destinations = null;
@@ -23,6 +27,12 @@ class PointPresenter {
 
   #mode = Mode.DEFAULT;
 
+  /**
+   *
+   * @params {HTMLElement} listPointContainer
+   * @params {handler} handleDataChange
+   * @params {handler} handleModeChange
+   */
   constructor({ listPointContainer, onDataChange, onModeChange }) {
     this.#listPointContainer = listPointContainer;
     this.#handleDataChange = onDataChange;
@@ -49,7 +59,8 @@ class PointPresenter {
       destinations: this.#destinations,
       offers: this.#offers,
       onFormSubmit: this.#handleFormSubmit,
-      onFormClose: this.#handleFormClose
+      onFormClose: this.#handleFormClose,
+      onDeleteClick: this.#handleDeleteClick,
     });
     render(this.#pointComponent, this.#listPointContainer);
 
@@ -109,8 +120,23 @@ class PointPresenter {
     document.addEventListener('keydown', this.#escKeyDownHandler);
   };
 
+  /**
+   * @property Вызывает обработчик handleDataChange при сохранении пользователем
+   * данных точки маршрута, вызывает метод #replaceFormToPoint() для закрытия
+   * окна редактирования и перерисовки точки маршрута с новыми данными,
+   * удаляет обработчик нажатия на клавишу Esc
+   * @param {object} point
+   */
   #handleFormSubmit = (point) => {
-    this.#handleDataChange(point);
+
+    const isMinorUpdate = !isDateEqual(this.#point.dateFrom, point.dateFrom) ||
+      !isDateEqual(this.#point.dateFrom, point.dateFrom) ||
+      !isPriceEqual(this.#point.basePrice, point.basePrice);
+
+    this.#handleDataChange(
+      UserAction.UPDATE_POINT,
+      isMinorUpdate ? UpdateType.MINOR : UpdateType.PATCH,
+      point);
     this.#replaceFormToPoint();
     document.removeEventListener('keydown', this.#escKeyDownHandler);
   };
@@ -120,8 +146,23 @@ class PointPresenter {
     document.removeEventListener('keydown', this.#escKeyDownHandler);
   };
 
+  /**
+   * @property Вызывает обработчик handleDataChange изменения данных
+   * при добавлении или удалении точки маршрута в(из) избранного
+   */
   #handleFavoriteClick = () => {
-    this.#handleDataChange({ ...this.#point, isFavorite: !this.#point.isFavorite });
+    this.#handleDataChange(
+      UserAction.UPDATE_POINT,
+      UpdateType.PATCH,
+      { ...this.#point, isFavorite: !this.#point.isFavorite });
+  };
+
+  #handleDeleteClick = (point) => {
+    this.#handleDataChange(
+      UserAction.DELETE_POINT,
+      UpdateType.MINOR,
+      point,
+    );
   };
 }
 

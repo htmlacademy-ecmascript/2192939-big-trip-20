@@ -24,20 +24,24 @@ function getPointDestinationId(destinations, destinationName) {
   return destinations.find((destination) => destinationName === destination.name).id;
 }
 
-function updatePoint(points, update) {
-  return points.map((point) => point.id === update.id ? update : point);
-}
-
 function durationPoint(point) {
   return dayjs(point.dateTo).diff(dayjs(point.dateFrom));
 }
 
 function sortPointByTime(points) {
-  return points.sort((a, b) => durationPoint(b) - durationPoint(a));
+  return [...points].sort((a, b) => durationPoint(b) - durationPoint(a));
 }
 
 function sortPointByPrice(points) {
-  return points.sort((a, b) => b.basePrice - a.basePrice);
+  return [...points].sort((a, b) => b.basePrice - a.basePrice);
+}
+
+function isDateEqual(dateA, dateB) {
+  return dayjs(dateA).isSame(dateB, 'm');
+}
+
+function isPriceEqual(priceA, priceB) {
+  return priceA === priceB;
 }
 
 export {
@@ -46,7 +50,8 @@ export {
   getPointDestinationId,
   getPointAllOffers,
   getPointOffersId,
-  updatePoint,
   sortPointByTime,
   sortPointByPrice,
+  isDateEqual,
+  isPriceEqual,
 };

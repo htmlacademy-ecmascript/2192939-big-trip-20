@@ -9,34 +9,68 @@ import { generateFilter } from '../mock/filter.js';
 const tripMainContainer = document.querySelector('.trip-main');
 const filtersContainer = document.querySelector('.trip-controls__filters');
 
+/**Класс отвечает за отрисовку и взаимодействие представлений шапки страницы
+ * @extends AbstractView
+ */
 class HeaderPresenter extends AbstractView {
-  #pagePoints = null;
-  #pageDestinations = null;
-  #pageOffers = null;
+  #pointsModel = null;
+  #destinationsModel = null;
+  #offersModel = null;
   #filters = null;
   #filtersComponent = null;
   #tripInfoMainComponent = null;
   #tripInfoCostComponent = null;
   #tripInfoComponent = null;
 
-  init({ pagePoints, pageDestinations, pageOffers }) {
-    this.#pagePoints = pagePoints;
-    this.#pageDestinations = pageDestinations;
-    this.#pageOffers = pageOffers;
+  /**
+   *
+   * @param {Array.<objects>} pointsModel точки маршрута
+   * @param {Array.<objects>} destinationsModel описания точек маршрута
+   * @param {Array.<objects>} offersModel предложения точек маршрута
+   */
 
+  constructor({ pointsModel, destinationsModel, offersModel }) {
+    super();
+    this.#pointsModel = pointsModel;
+    this.#destinationsModel = destinationsModel;
+    this.#offersModel = offersModel;
     this.#tripInfoComponent = new TripInfoView();
-    this.#filters = generateFilter(this.#pagePoints);
+    this.#filters = generateFilter(this.points);
     this.#filtersComponent = new FilterView(this.#filters);
-    this.#tripInfoMainComponent = new TripInfoMainView({
-      points: this.#pagePoints,
-      destinations: this.#pageDestinations,
-    });
+    this.#tripInfoMainComponent = new TripInfoMainView();
     this.#tripInfoCostComponent = new TripInfoCostView({
-      points: this.#pagePoints,
-      offers: this.#pageOffers
+      points: this.points,
+      offers: this.offers
     });
+  }
 
-    if (!this.#pagePoints.length) {
+  /**
+ * Геттер отсортированного массива точек путешествия
+ * @returns {Array.<objects>} отсортированный массив точек
+ */
+  get points() {
+    return this.#pointsModel.points;
+  }
+
+  /**
+   * Геттер модели описаний точки маршрута (обертка над геттером модели описаний DestinationsModel)
+   * @returns {Array.<objects>} #offers
+   */
+  get destinations() {
+    return this.#destinationsModel.destinations;
+  }
+
+  /**
+  * Геттер модели офферов точки маршрута (обертка над геттером модели офферов OffersModel)
+  * @returns {Array.<objects>} #offers
+  */
+  get offers() {
+    return this.#offersModel.offers;
+  }
+
+
+  init() {
+    if (!this.points.length) {
       this.#renderFilters();
       return;
     }
@@ -57,10 +91,18 @@ class HeaderPresenter extends AbstractView {
   }
 
   #renderTripInfoMain() {
+    this.#tripInfoMainComponent.init({
+      points: this.points,
+      destinations: this.destinations,
+    });
     render(this.#tripInfoMainComponent, this.#tripInfoComponent.element, RenderPosition.AFTERBEGIN);
   }
 
   #renderTripInfoCost() {
+    this.#tripInfoCostComponent.init({
+      points: this.points,
+      offers: this.offers
+    });
     render(this.#tripInfoCostComponent, this.#tripInfoComponent.element);
   }
 }
