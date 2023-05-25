@@ -4,8 +4,8 @@ const mockPoints = [
   {
     'id': '1',
     'basePrice': 1100,
-    'dateFrom': '2023-01-10T22:00:00.00Z',
-    'dateTo': '2023-01-11T11:00:00.00Z',
+    'dateFrom': '2023-05-10T22:00:00.00Z',
+    'dateTo': '2023-05-31T11:10:00.00Z',
     'destination': '1',
     'isFavorite': false,
     'offers': [
@@ -60,8 +60,8 @@ const mockPoints = [
   {
     'id': '5',
     'basePrice': 2700,
-    'dateFrom': '2023-05-10T22:55:56.845Z',
-    'dateTo': '2023-05-11T11:22:13.375Z',
+    'dateFrom': '2023-05-25T02:55:56.845Z',
+    'dateTo': '2023-05-25T11:22:13.375Z',
     'destination': '5',
     'isFavorite': true,
     'offers': [
@@ -112,8 +112,8 @@ const mockPoints = [
   {
     'id': '9',
     'basePrice': 2000,
-    'dateFrom': '2023-08-10T22:55:56.845Z',
-    'dateTo': '2023-08-11T11:22:13.375Z',
+    'dateFrom': '2023-05-25T02:55:56.845Z',
+    'dateTo': '2023-05-25T11:22:13.375Z',
     'destination': '9',
     'isFavorite': true,
     'offers': [

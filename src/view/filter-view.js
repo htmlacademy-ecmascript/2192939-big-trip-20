@@ -3,15 +3,15 @@ import AbstractView from '../framework/view/abstract-view.js';
 function createFilterViewItemTemplate(filter, currentFilterType) {
   const { type, count } = filter;
   return /*html*/`<div class="trip-filters__filter">
-                  <label class="trip-filters__filter-label"
-                  for="filter-${type}">${type}</label>
                   <input id="filter-${type}"
-                   class="trip-filters__filter-input  visually-hidden"
-                   type="radio"
-                   name="trip-filter"
-                   value="${type}"
-                   ${type === currentFilterType ? 'checked' : ''}
-                   ${count === 0 ? 'disabled' : ''}>
+                  class="trip-filters__filter-input  visually-hidden"
+                  type="radio"
+                  name="trip-filter"
+                  value="${type}"
+                  ${type === currentFilterType ? 'checked' : ''}
+                  ${count === 0 ? 'disabled' : ''}>
+                  <label class="trip-filters__filter-label"
+                  for="filter-${type}" data-filter-type=${type}>${type}</label>
                 </div>`;
 }
 
@@ -44,8 +44,11 @@ class FilterView extends AbstractView {
   }
 
   #filterTypeChangeHandler = (evt) => {
+    if (evt.target.tagName !== 'LABEL') {
+      return;
+    }
     evt.preventDefault();
-    this.#handleFilterTypeChange(evt.target.value);
+    this.#handleFilterTypeChange(evt.target.dataset.filterType);
   };
 }
 
