@@ -4,7 +4,7 @@ import ListPointView from '../view/list-point-view.js';
 import NoPointView from '../view/no-point-view.js';
 import PointPresenter from './point-presenter.js';
 import { sortPointByTime, sortPointByPrice, } from '../utils/points.js';
-import { SortType, UpdateType, UserAction } from '../utils/const.js';
+import { SortType, UpdateType, UserAction, FilterType } from '../utils/const.js';
 import { filter } from '../utils/filter.js';
 
 /**
@@ -19,10 +19,11 @@ class PagePresenter {
 
   #sortPointComponent = null;
   #listPointComponent = new ListPointView();
-  #noPointComponent = new NoPointView();
+  #noPointComponent = null;
 
   #pointPresenters = new Map();
   #currentSortType = SortType.DEFAULT;
+  #filterType = FilterType.EVERYTHING;
 
   /**
    *
@@ -53,9 +54,9 @@ class PagePresenter {
    * @returns {Array.<objects>} отсортированный массив точек
    */
   get points() {
-    const filterType = this.#filterModel.filter;
+    this.#filterType = this.#filterModel.filter;
     const points = this.#pointsModel.points;
-    const filteredPoints = filter[filterType](points);
+    const filteredPoints = filter[this.#filterType](points);
 
     switch (this.#currentSortType) {
       case SortType.TIME:
@@ -130,7 +131,9 @@ class PagePresenter {
     this.#pointPresenters.clear();
 
     remove(this.#sortPointComponent);
-    remove(this.#noPointComponent);
+    if (this.#noPointComponent) {
+      remove(this.#noPointComponent);
+    }
 
     if (resetSortType) {
       this.#currentSortType = SortType.DEFAULT;
@@ -138,6 +141,7 @@ class PagePresenter {
   }
 
   #renderNoPointComponent() {
+    this.#noPointComponent = new NoPointView({ filterType: this.#filterType });
     render(this.#noPointComponent, this.#tripEventsContainer, RenderPosition.AFTERBEGIN);
   }
 

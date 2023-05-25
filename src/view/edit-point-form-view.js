@@ -9,7 +9,8 @@ import flatpickr from 'flatpickr';
 
 import 'flatpickr/dist/flatpickr.min.css';
 
-const createPointOfferList = (pointOffers) => {
+
+function createPointOfferList(pointOffers) {
   let pointList = '';
   pointOffers.forEach((pointOffer) => {
     pointList += `<div class="event__offer-selector">
@@ -22,7 +23,7 @@ const createPointOfferList = (pointOffers) => {
     </div>`;
   });
   return pointList;
-};
+}
 
 function createPointPictureList(pointDestination) {
   let pointPhotoList = '';
