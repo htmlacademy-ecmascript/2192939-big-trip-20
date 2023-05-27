@@ -8,9 +8,6 @@ import FilterPresenter from './filter-presenter.js';
 const tripMainContainer = document.querySelector('.trip-main');
 const filtersContainer = document.querySelector('.trip-controls__filters');
 
-/**Класс отвечает за отрисовку и взаимодействие представлений шапки страницы
- * @extends AbstractView
- */
 class HeaderPresenter extends AbstractView {
   #pointsModel = null;
   #destinationsModel = null;
@@ -21,13 +18,6 @@ class HeaderPresenter extends AbstractView {
   #tripInfoCostComponent = null;
   #tripInfoComponent = null;
   #filterModel = null;
-
-  /**
-   *
-   * @param {Array.<objects>} pointsModel точки маршрута
-   * @param {Array.<objects>} destinationsModel описания точек маршрута
-   * @param {Array.<objects>} offersModel предложения точек маршрута
-   */
 
   constructor({ pointsModel, destinationsModel, offersModel, filterModel }) {
     super();
@@ -53,28 +43,17 @@ class HeaderPresenter extends AbstractView {
     });
 
     this.#pointsModel.addObserver(this.#handleModeEvent);
+    this.#filterModel.addObserver(this.#handleModeEvent);
   }
 
-  /**
- * Геттер отсортированного массива точек путешествия
- * @returns {Array.<objects>} отсортированный массив точек
- */
   get points() {
     return this.#pointsModel.points;
   }
 
-  /**
-   * Геттер модели описаний точки маршрута (обертка над геттером модели описаний DestinationsModel)
-   * @returns {Array.<objects>} #offers
-   */
   get destinations() {
     return this.#destinationsModel.destinations;
   }
 
-  /**
-  * Геттер модели офферов точки маршрута (обертка над геттером модели офферов OffersModel)
-  * @returns {Array.<objects>} #offers
-  */
   get offers() {
     return this.#offersModel.offers;
   }
@@ -96,10 +75,6 @@ class HeaderPresenter extends AbstractView {
   #renderTripInfo() {
     render(this.#tripInfoComponent, tripMainContainer, RenderPosition.AFTERBEGIN);
   }
-
-  // #renderFilters() {
-  //   render(this.#filtersComponent, filtersContainer);
-  // }
 
   #renderTripInfoMain() {
     render(this.#tripInfoMainComponent, this.#tripInfoComponent.element, RenderPosition.AFTERBEGIN);

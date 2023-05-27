@@ -11,7 +11,7 @@ function createFilterViewItemTemplate(filter, currentFilterType) {
                   ${type === currentFilterType ? 'checked' : ''}
                   ${count === 0 ? 'disabled' : ''}>
                   <label class="trip-filters__filter-label"
-                  for="filter-${type}" data-filter-type=${type}>${type}</label>
+                  for="filter-${type}">${type}</label>
                 </div>`;
 }
 
@@ -36,7 +36,7 @@ class FilterView extends AbstractView {
     this.#currentFilterType = currentFilterType;
     this.#handleFilterTypeChange = onFilterTypeChange;
 
-    this.element.addEventListener('click', this.#filterTypeChangeHandler);
+    this.element.addEventListener('change', this.#filterTypeChangeHandler);
   }
 
   get template() {
@@ -44,11 +44,8 @@ class FilterView extends AbstractView {
   }
 
   #filterTypeChangeHandler = (evt) => {
-    if (evt.target.tagName !== 'LABEL') {
-      return;
-    }
     evt.preventDefault();
-    this.#handleFilterTypeChange(evt.target.dataset.filterType);
+    this.#handleFilterTypeChange(evt.target.value);
   };
 }
 

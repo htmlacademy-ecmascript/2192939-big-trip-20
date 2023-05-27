@@ -120,17 +120,10 @@ class PointPresenter {
     document.addEventListener('keydown', this.#escKeyDownHandler);
   };
 
-  /**
-   * @property Вызывает обработчик handleDataChange при сохранении пользователем
-   * данных точки маршрута, вызывает метод #replaceFormToPoint() для закрытия
-   * окна редактирования и перерисовки точки маршрута с новыми данными,
-   * удаляет обработчик нажатия на клавишу Esc
-   * @param {object} point
-   */
   #handleFormSubmit = (point) => {
 
     const isMinorUpdate = !isDateEqual(this.#point.dateFrom, point.dateFrom) ||
-      !isDateEqual(this.#point.dateFrom, point.dateFrom) ||
+      !isDateEqual(this.#point.dateTo, point.dateTo) ||
       !isPriceEqual(this.#point.basePrice, point.basePrice);
 
     this.#handleDataChange(

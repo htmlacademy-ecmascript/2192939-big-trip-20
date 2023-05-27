@@ -9,9 +9,7 @@ const mockPoints = [
     'destination': '1',
     'isFavorite': false,
     'offers': [
-      '1',
-      '3',
-      '4'
+      '1'
     ],
     'type': 'taxi'
   },
@@ -24,9 +22,7 @@ const mockPoints = [
     'isFavorite': true,
     'offers': [
       '2',
-      '5',
       '6',
-      '9'
     ],
     'type': 'bus'
   },
@@ -39,7 +35,6 @@ const mockPoints = [
     'isFavorite': true,
     'offers': [
       '3',
-      '9'
     ],
     'type': 'train'
   },
@@ -79,9 +74,6 @@ const mockPoints = [
     'offers': [
       '6',
       '5',
-      '7',
-      '8',
-      '9'
     ],
     'type': 'flight'
   },
@@ -104,8 +96,6 @@ const mockPoints = [
     'isFavorite': false,
     'offers': [
       '8',
-      '7',
-      '9'
     ],
     'type': 'sightseeing'
   },
@@ -117,10 +107,7 @@ const mockPoints = [
     'destination': '9',
     'isFavorite': true,
     'offers': [
-      '9',
-      '1',
-      '2',
-      '5'
+      '7',
     ],
     'type': 'restaurant'
   }
@@ -172,6 +159,22 @@ const mockDestinations = [
     'description': 'Vienna: Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis.',
     'name': 'Vienna',
     'pictures': [
+      {
+        'src': 'img/photos/4.jpg',
+        'description': 'Lorem ipsum dolor sit amet'
+      },
+      {
+        'src': 'img/photos/5.jpg',
+        'description': 'Lorem ipsum dolor sit amet'
+      },
+      {
+        'src': 'img/photos/3.jpg',
+        'description': 'Lorem ipsum dolor sit amet'
+      },
+      {
+        'src': 'img/photos/2.jpg',
+        'description': 'Lorem ipsum dolor sit amet'
+      },
       {
         'src': 'img/photos/4.jpg',
         'description': 'Lorem ipsum dolor sit amet'
@@ -325,11 +328,6 @@ const mockOffers = [
         'price': 180
       },
       {
-        'id': '4',
-        'title': 'Offer - 1',
-        'price': 120
-      },
-      {
         'id': '5',
         'title': 'Offer - 5',
         'price': 150
@@ -352,11 +350,6 @@ const mockOffers = [
         'id': '4',
         'title': 'Offer - 1',
         'price': 120
-      },
-      {
-        'id': '5',
-        'title': 'Offer - 5',
-        'price': 150
       },
       {
         'id': '6',

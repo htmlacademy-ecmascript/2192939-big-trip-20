@@ -7,9 +7,6 @@ import { sortPointByTime, sortPointByPrice, } from '../utils/points.js';
 import { SortType, UpdateType, UserAction, FilterType } from '../utils/const.js';
 import { filter } from '../utils/filter.js';
 
-/**
- * @class отвечает за отрисовку основного содержимого страницы
- */
 class PagePresenter {
   #pointsModel = null;
   #destinationsModel = null;
@@ -25,13 +22,6 @@ class PagePresenter {
   #currentSortType = SortType.DEFAULT;
   #filterType = FilterType.EVERYTHING;
 
-  /**
-   *
-   * @params {HTMLElement} tripEventsContainer родительский элемент
-   * @params {Array<objects>} pointsModel точки маршрута
-   * @params {Array<objects>} destinationsModel описания точек маршрута
-   * @params {Array<objects>} offersModel предложения точек маршрута
-   */
   constructor({
     tripEventsContainer,
     pointsModel,
@@ -49,10 +39,6 @@ class PagePresenter {
     this.#filterModel.addObserver(this.#handleModeEvent);
   }
 
-  /**
-   * Геттер возвращает отсортированный в нужном порядке массив точек путешествия
-   * @returns {Array.<objects>} отсортированный массив точек
-   */
   get points() {
     this.#filterType = this.#filterModel.filter;
     const points = this.#pointsModel.points;
@@ -67,18 +53,10 @@ class PagePresenter {
     return filteredPoints;
   }
 
-  /**
-   * Геттер возвращает массив описаний точек маршрута (обертка над геттером модели описаний DestinationsModel)
-   * @returns {Array.<objects>} #offers
-   */
   get destinations() {
     return this.#destinationsModel.destinations;
   }
 
-  /**
-  * Геттер возвращает массив предложений для точек маршрута (обертка над геттером модели офферов OffersModel)
-  * @returns {Array.<objects>} #offers
-  */
   get offers() {
     return this.#offersModel.offers;
   }
@@ -163,11 +141,6 @@ class PagePresenter {
     );
   };
 
-  /**
-   * @property выбирает тип изменения
-   * @param {string} updateType тип изменения
-   * @param {object} data измененные данные
-   */
   #handleModeEvent = (updateType, data) => {
     switch (updateType) {
       case UpdateType.PATCH:
@@ -186,12 +159,6 @@ class PagePresenter {
     }
   };
 
-  /**
-   *
-   * @param {string} actionType тип действия пользователя при взаимодействии с представлением
-   * @param {string} updateType тип изменения
-   * @param {object} update измененные данные
-   */
   #handleViewAction = (actionType, updateType, update) => {
     switch (actionType) {
       case UserAction.UPDATE_POINT:

@@ -8,8 +8,8 @@ function getPointOffers(point, offers) {
   return correctOffer.offers;
 }
 
-function getPointAllOffers(point, offers) {
-  return offers.find((offer) => point.type === offer.type);
+function getPointOfferChecked(point, pointOffers) {
+  return pointOffers.map((pointOffer) => point.offers.some((offer) => offer === pointOffer.id));
 }
 
 function getPointOffersId(offers, offersType) {
@@ -44,14 +44,18 @@ function isPriceEqual(priceA, priceB) {
   return priceA === priceB;
 }
 
+function getCitiesName(destinations) {
+  return destinations.map((destination) => destination.name);
+}
 export {
   getPointOffers,
+  getPointOfferChecked,
   getPointDestination,
   getPointDestinationId,
-  getPointAllOffers,
   getPointOffersId,
   sortPointByTime,
   sortPointByPrice,
   isDateEqual,
   isPriceEqual,
+  getCitiesName
 };
