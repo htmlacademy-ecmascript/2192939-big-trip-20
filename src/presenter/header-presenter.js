@@ -12,7 +12,6 @@ class HeaderPresenter extends AbstractView {
   #pointsModel = null;
   #destinationsModel = null;
   #offersModel = null;
-  #filters = null;
   #filtersPresenter = null;
   #tripInfoMainComponent = null;
   #tripInfoCostComponent = null;
@@ -27,7 +26,6 @@ class HeaderPresenter extends AbstractView {
     this.#filterModel = filterModel;
 
     this.#tripInfoComponent = new TripInfoView();
-    this.#filters = [{ type: 'everything', count: 0, }];
     this.#filtersPresenter = new FilterPresenter({
       filterContainer: filtersContainer,
       filterModel: this.#filterModel,

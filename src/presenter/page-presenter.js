@@ -35,6 +35,7 @@ class PagePresenter {
     this.#offersModel = offersModel;
     this.#filterModel = filterModel;
 
+
     this.#pointsModel.addObserver(this.#handleModeEvent);
     this.#filterModel.addObserver(this.#handleModeEvent);
   }

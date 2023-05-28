@@ -3,15 +3,13 @@ import PointView from '../view/point-view.js';
 import EditPointFormView from '../view/edit-point-form-view.js';
 import { UpdateType, UserAction } from '../utils/const.js';
 import { isDateEqual, isPriceEqual } from '../utils/points.js';
+import NewPointButtonView from '../view/new-point-button-view.js';
 
 const Mode = {
   DEFAULT: 'DEFAULT',
   EDITING: 'EDITING',
 };
 
-/**
- * @class отвечает за взаимодействие представления точки маршрута и модели
- */
 class PointPresenter {
   #point = null;
   #destinations = null;
@@ -27,12 +25,6 @@ class PointPresenter {
 
   #mode = Mode.DEFAULT;
 
-  /**
-   *
-   * @params {HTMLElement} listPointContainer
-   * @params {handler} handleDataChange
-   * @params {handler} handleModeChange
-   */
   constructor({ listPointContainer, onDataChange, onModeChange }) {
     this.#listPointContainer = listPointContainer;
     this.#handleDataChange = onDataChange;
@@ -140,10 +132,6 @@ class PointPresenter {
     document.removeEventListener('keydown', this.#escKeyDownHandler);
   };
 
-  /**
-   * @property Вызывает обработчик handleDataChange изменения данных
-   * при добавлении или удалении точки маршрута в(из) избранного
-   */
   #handleFavoriteClick = () => {
     this.#handleDataChange(
       UserAction.UPDATE_POINT,
