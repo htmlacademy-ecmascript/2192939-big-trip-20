@@ -6,7 +6,7 @@ import NewPointButtonView from '../view/new-point-button-view.js';
 import PointPresenter from './point-presenter.js';
 import NewPointPresenter from './new-point-presenter.js';
 import { sortPointByTime, sortPointByPrice, } from '../utils/points.js';
-import { SortType, UpdateType, UserAction, FilterType } from '../utils/const.js';
+import { SortType, UpdateType, UserAction, FilterType, EMPTY_POINT } from '../utils/const.js';
 import { filter } from '../utils/filter.js';
 
 class PagePresenter {
@@ -140,7 +140,7 @@ class PagePresenter {
   #handleNewPointButtonClick = () => {
     this.#newPointPresenter = new NewPointPresenter({
       listPointContainer: this.#listPointComponent.element,
-      point: this.points[0],
+      point: EMPTY_POINT,
       destinations: this.destinations,
       offers: this.offers,
       onDataChange: this.#handleViewAction,

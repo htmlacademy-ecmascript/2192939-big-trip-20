@@ -20,10 +20,7 @@ const mockPoints = [
     'dateTo': '2023-02-11T10:22:13.375Z',
     'destination': '2',
     'isFavorite': true,
-    'offers': [
-      '2',
-      '6',
-    ],
+    'offers': [],
     'type': 'bus'
   },
   {

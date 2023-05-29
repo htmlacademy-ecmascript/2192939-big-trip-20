@@ -26,4 +26,15 @@ const UpdateType = {
   MAJOR: 'MAJOR',
 };
 
-export { FilterType, SortType, UserAction, UpdateType };
+const EMPTY_POINT = {
+  'id': '',
+  'basePrice': 0,
+  'dateFrom': '',
+  'dateTo': '',
+  'destination': '',
+  'isFavorite': false,
+  'offers': [],
+  'type': ''
+};
+
+export { FilterType, SortType, UserAction, UpdateType, EMPTY_POINT };
