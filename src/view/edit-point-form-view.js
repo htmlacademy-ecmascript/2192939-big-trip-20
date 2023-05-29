@@ -145,7 +145,7 @@ function createEditPointFormTemplate(point, destinations, offers) {
         </div>
       </section>
 
-      <section class="event__section  event__section--destination ${he.encode(pointDestination.description) ? '' : 'visually-hidden'}">
+      <section class="event__section  event__section--destination ${pointDestination.description ? '' : 'visually-hidden'}">
         <h3 class="event__section-title  event__section-title--destination">Destination</h3>
         <p class="event__destination-description">${he.encode(pointDestination.description)}</p>
 

@@ -11,7 +11,14 @@ const offersModel = new OffersModel();
 const filterModel = new FilterModel();
 
 const tripEventsContainer = document.querySelector('.trip-events');
+const tripHeaderContainer = document.querySelector('.trip-main');
+const filtersContainer = document.querySelector('.trip-controls__filters');
 
-const rootPresenter = new RootPresenter({ tripEventsContainer });
+
+const rootPresenter = new RootPresenter({
+  tripEventsContainer,
+  tripHeaderContainer,
+  filtersContainer
+});
 
 rootPresenter.init(pointsModel, destinationsModel, offersModel, filterModel);

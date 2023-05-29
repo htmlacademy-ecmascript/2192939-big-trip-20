@@ -5,8 +5,6 @@ import TripInfoCostView from '../view/trip-info-cost-view.js';
 import AbstractView from '../framework/view/abstract-view.js';
 import FilterPresenter from './filter-presenter.js';
 
-const tripMainContainer = document.querySelector('.trip-main');
-const filtersContainer = document.querySelector('.trip-controls__filters');
 
 class HeaderPresenter extends AbstractView {
   #pointsModel = null;
@@ -17,9 +15,20 @@ class HeaderPresenter extends AbstractView {
   #tripInfoCostComponent = null;
   #tripInfoComponent = null;
   #filterModel = null;
+  #tripHeaderContainer = null;
+  #filtersContainer = null;
 
-  constructor({ pointsModel, destinationsModel, offersModel, filterModel }) {
+  constructor({
+    tripHeaderContainer,
+    filtersContainer,
+    pointsModel,
+    destinationsModel,
+    offersModel,
+    filterModel,
+  }) {
     super();
+    this.#tripHeaderContainer = tripHeaderContainer;
+    this.#filtersContainer = filtersContainer;
     this.#pointsModel = pointsModel;
     this.#destinationsModel = destinationsModel;
     this.#offersModel = offersModel;
@@ -27,7 +36,7 @@ class HeaderPresenter extends AbstractView {
 
     this.#tripInfoComponent = new TripInfoView();
     this.#filtersPresenter = new FilterPresenter({
-      filterContainer: filtersContainer,
+      filtersContainer: this.#filtersContainer,
       filterModel: this.#filterModel,
       pointsModel: this.#pointsModel,
     });
@@ -71,7 +80,7 @@ class HeaderPresenter extends AbstractView {
 
 
   #renderTripInfo() {
-    render(this.#tripInfoComponent, tripMainContainer, RenderPosition.AFTERBEGIN);
+    render(this.#tripInfoComponent, this.#tripHeaderContainer, RenderPosition.AFTERBEGIN);
   }
 
   #renderTripInfoMain() {

@@ -3,7 +3,6 @@ import PointView from '../view/point-view.js';
 import EditPointFormView from '../view/edit-point-form-view.js';
 import { UpdateType, UserAction } from '../utils/const.js';
 import { isDateEqual, isPriceEqual } from '../utils/points.js';
-import NewPointButtonView from '../view/new-point-button-view.js';
 
 const Mode = {
   DEFAULT: 'DEFAULT',
@@ -54,7 +53,6 @@ class PointPresenter {
       onFormClose: this.#handleFormClose,
       onDeleteClick: this.#handleDeleteClick,
     });
-    render(this.#pointComponent, this.#listPointContainer);
 
     if (!prevPointComponent || !prevPointEditComponent) {
       render(this.#pointComponent, this.#listPointContainer);

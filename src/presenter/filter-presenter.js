@@ -4,14 +4,14 @@ import { filter } from '../utils/filter.js';
 import { FilterType, UpdateType } from '../utils/const.js';
 
 class FilterPresenter {
-  #filterContainer = null;
+  #filtersContainer = null;
   #filterModel = null;
   #pointsModel = null;
 
   #filterComponent = null;
 
-  constructor({ filterContainer, filterModel, pointsModel }) {
-    this.#filterContainer = filterContainer;
+  constructor({ filtersContainer, filterModel, pointsModel }) {
+    this.#filtersContainer = filtersContainer;
     this.#filterModel = filterModel;
     this.#pointsModel = pointsModel;
 
@@ -42,7 +42,7 @@ class FilterPresenter {
     );
 
     if (prevFilterComponent === null) {
-      render(this.#filterComponent, this.#filterContainer);
+      render(this.#filterComponent, this.#filtersContainer);
       return;
     }
 

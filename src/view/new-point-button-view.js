@@ -11,23 +11,22 @@ function newPointButtonViewTemplate() {
 
 class NewPointButtonView extends AbstractView {
 
-  #handleClickNewPoint = null;
+  #handleClickNewPointButton = null;
 
-  constructor({ onClickNewPoint }) {
+  constructor({ onNewPointButtonClick }) {
     super();
-    this.#handleClickNewPoint = onClickNewPoint;
+    this.#handleClickNewPointButton = onNewPointButtonClick;
 
-    this.element.addEventListener('click', this.#clickNewPointHandler);
+    this.element.addEventListener('click', this.#clickNewPointButtonHandler);
   }
 
   get template() {
     return newPointButtonViewTemplate();
   }
 
-  #clickNewPointHandler = (evt) => {
+  #clickNewPointButtonHandler = (evt) => {
     evt.preventDefault();
-    console.log('Сработал обработчик на кнопке из NewPointButtonView');
-    this.#handleClickNewPoint();
+    this.#handleClickNewPointButton();
   };
 }
 

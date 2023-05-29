@@ -2,7 +2,9 @@ import { render, RenderPosition, remove } from '../framework/render.js';
 import SortView from '../view/sort-view.js';
 import ListPointView from '../view/list-point-view.js';
 import NoPointView from '../view/no-point-view.js';
+import NewPointButtonView from '../view/new-point-button-view.js';
 import PointPresenter from './point-presenter.js';
+import NewPointPresenter from './new-point-presenter.js';
 import { sortPointByTime, sortPointByPrice, } from '../utils/points.js';
 import { SortType, UpdateType, UserAction, FilterType } from '../utils/const.js';
 import { filter } from '../utils/filter.js';
@@ -13,27 +15,38 @@ class PagePresenter {
   #offersModel = null;
   #filterModel = null;
   #tripEventsContainer = null;
+  #tripHeaderContainer = null;
 
   #sortPointComponent = null;
   #listPointComponent = new ListPointView();
   #noPointComponent = null;
+  #newPointButtonComponent = null;
 
   #pointPresenters = new Map();
+  #newPointPresenter = null;
   #currentSortType = SortType.DEFAULT;
   #filterType = FilterType.EVERYTHING;
 
   constructor({
     tripEventsContainer,
+    tripHeaderContainer,
     pointsModel,
     destinationsModel,
     offersModel,
     filterModel,
   }) {
     this.#tripEventsContainer = tripEventsContainer;
+    this.#tripHeaderContainer = tripHeaderContainer;
     this.#pointsModel = pointsModel;
     this.#destinationsModel = destinationsModel;
     this.#offersModel = offersModel;
     this.#filterModel = filterModel;
+
+    this.#newPointButtonComponent = new NewPointButtonView({
+      onNewPointButtonClick: this.#handleNewPointButtonClick
+    });
+
+    render(this.#newPointButtonComponent, this.#tripHeaderContainer);
 
 
     this.#pointsModel.addObserver(this.#handleModeEvent);
@@ -123,6 +136,17 @@ class PagePresenter {
     this.#noPointComponent = new NoPointView({ filterType: this.#filterType });
     render(this.#noPointComponent, this.#tripEventsContainer, RenderPosition.AFTERBEGIN);
   }
+
+  #handleNewPointButtonClick = () => {
+    this.#newPointPresenter = new NewPointPresenter({
+      listPointContainer: this.#listPointComponent.element,
+      point: this.points[0],
+      destinations: this.destinations,
+      offers: this.offers,
+      onDataChange: this.#handleViewAction,
+      onModeChange: this.#handleModeChange,
+    });
+  };
 
   #handleSortTypeChange = (sortType) => {
     if (this.#currentSortType === sortType) {

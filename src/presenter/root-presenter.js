@@ -8,11 +8,15 @@ class RootPresenter {
   #offersModel = null;
   #filterModel = null;
   #tripEventsContainer = null;
+  #tripHeaderContainer = null;
+  #filtersContainer = null;
   #headerPresenter = null;
   #pagePresenter = null;
 
-  constructor({ tripEventsContainer }) {
+  constructor({ tripEventsContainer, tripHeaderContainer, filtersContainer }) {
     this.#tripEventsContainer = tripEventsContainer;
+    this.#tripHeaderContainer = tripHeaderContainer;
+    this.#filtersContainer = filtersContainer;
   }
 
   init(pointsModel, destinationsModel, offersModel, filterModel) {
@@ -22,6 +26,8 @@ class RootPresenter {
     this.#filterModel = filterModel;
 
     this.#headerPresenter = new HeaderPresenter({
+      tripHeaderContainer: this.#tripHeaderContainer,
+      filtersContainer: this.#filtersContainer,
       pointsModel: this.#pointsModel,
       destinationsModel: this.#destinationsModel,
       offersModel: this.#offersModel,
@@ -29,6 +35,7 @@ class RootPresenter {
     });
     this.#pagePresenter = new PagePresenter({
       tripEventsContainer: this.#tripEventsContainer,
+      tripHeaderContainer: this.#tripHeaderContainer,
       pointsModel: this.#pointsModel,
       destinationsModel: this.#destinationsModel,
       offersModel: this.#offersModel,
