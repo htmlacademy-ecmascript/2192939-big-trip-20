@@ -14,7 +14,7 @@ class HeaderPresenter extends AbstractView {
   #tripInfoMainComponent = null;
   #tripInfoCostComponent = null;
   #tripInfoComponent = null;
-  #filterModel = null;
+  #filtersModel = null;
   #tripHeaderContainer = null;
   #filtersContainer = null;
 
@@ -24,7 +24,7 @@ class HeaderPresenter extends AbstractView {
     pointsModel,
     destinationsModel,
     offersModel,
-    filterModel,
+    filtersModel,
   }) {
     super();
     this.#tripHeaderContainer = tripHeaderContainer;
@@ -32,12 +32,12 @@ class HeaderPresenter extends AbstractView {
     this.#pointsModel = pointsModel;
     this.#destinationsModel = destinationsModel;
     this.#offersModel = offersModel;
-    this.#filterModel = filterModel;
+    this.#filtersModel = filtersModel;
 
     this.#tripInfoComponent = new TripInfoView();
     this.#filtersPresenter = new FilterPresenter({
       filtersContainer: this.#filtersContainer,
-      filterModel: this.#filterModel,
+      filtersModel: this.#filtersModel,
       pointsModel: this.#pointsModel,
     });
     this.#tripInfoMainComponent = new TripInfoMainView({
@@ -50,7 +50,7 @@ class HeaderPresenter extends AbstractView {
     });
 
     this.#pointsModel.addObserver(this.#handleModeEvent);
-    this.#filterModel.addObserver(this.#handleModeEvent);
+    this.#filtersModel.addObserver(this.#handleModeEvent);
   }
 
   get points() {

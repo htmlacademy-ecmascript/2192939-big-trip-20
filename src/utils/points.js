@@ -36,6 +36,10 @@ function sortPointByPrice(points) {
   return [...points].sort((a, b) => b.basePrice - a.basePrice);
 }
 
+function sortPointByDay(points) {
+  return [...points].sort((a, b) => dayjs(a.dateFrom).diff(dayjs(b.dateFrom)));
+}
+
 function isDateEqual(dateA, dateB) {
   return dayjs(dateA).isSame(dateB, 'm');
 }
@@ -55,6 +59,7 @@ export {
   getPointOffersId,
   sortPointByTime,
   sortPointByPrice,
+  sortPointByDay,
   isDateEqual,
   isPriceEqual,
   getCitiesName

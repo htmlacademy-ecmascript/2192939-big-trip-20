@@ -10,23 +10,26 @@ class NewPointPresenter {
   #newPointFormComponent = null;
   #handleDataChange = null;
   #handleModeChange = null;
+  #handleNewPointEditClose = null;
 
 
-  constructor({ listPointContainer, point, destinations, offers, onDataChange, onModeChange, }) {
+  constructor({ listPointContainer,
+    point, destinations, offers, onDataChange, onModeChange, onNewPointEditClose }) {
     this.#listPointContainer = listPointContainer;
     this.#point = point;
     this.#destinations = destinations;
     this.#offers = offers;
     this.#handleDataChange = onDataChange;
     this.#handleModeChange = onModeChange;
+    this.#handleNewPointEditClose = onNewPointEditClose;
 
     this.#newPointFormComponent = new EditPointFormView({
       point: this.#point,
       destinations: this.#destinations,
       offers: this.#offers,
       onFormSubmit: this.#handleFormSubmit,
-      onFormClose: this.#handleFormClose,
       onDeleteClick: this.#handleDeleteClick,
+      onCancelClick: this.#handleCancelClick
     });
     render(this.#newPointFormComponent, this.#listPointContainer, RenderPosition.AFTERBEGIN);
     document.addEventListener('keydown', this.#escKeyDownHandler);
@@ -39,11 +42,7 @@ class NewPointPresenter {
       point);
     remove(this.#newPointFormComponent);
     document.removeEventListener('keydown', this.#escKeyDownHandler);
-  };
-
-  #handleFormClose = () => {
-    this.#newPointFormComponent.reset(this.#point);
-    document.removeEventListener('keydown', this.#escKeyDownHandler);
+    this.#handleNewPointEditClose();
   };
 
   #escKeyDownHandler = (evt) => {
@@ -52,12 +51,19 @@ class NewPointPresenter {
       this.#newPointFormComponent.reset(this.#point);
       remove(this.#newPointFormComponent);
       document.removeEventListener('keydown', this.#escKeyDownHandler);
+      this.#handleNewPointEditClose();
     }
   };
 
   #handleDeleteClick = (point) => {
     this.#newPointFormComponent.reset(point);
     remove(this.#newPointFormComponent);
+  };
+
+  #handleCancelClick = () => {
+    this.#newPointFormComponent.reset(this.#point);
+    document.removeEventListener('keydown', this.#escKeyDownHandler);
+    this.#handleNewPointEditClose();
   };
 
 

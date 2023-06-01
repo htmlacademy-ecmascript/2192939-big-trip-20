@@ -5,7 +5,7 @@ import NoPointView from '../view/no-point-view.js';
 import NewPointButtonView from '../view/new-point-button-view.js';
 import PointPresenter from './point-presenter.js';
 import NewPointPresenter from './new-point-presenter.js';
-import { sortPointByTime, sortPointByPrice, } from '../utils/points.js';
+import { sortPointByTime, sortPointByPrice, sortPointByDay, } from '../utils/points.js';
 import { SortType, UpdateType, UserAction, FilterType, EMPTY_POINT } from '../utils/const.js';
 import { filter } from '../utils/filter.js';
 
@@ -13,7 +13,7 @@ class PagePresenter {
   #pointsModel = null;
   #destinationsModel = null;
   #offersModel = null;
-  #filterModel = null;
+  #filtersModel = null;
   #tripEventsContainer = null;
   #tripHeaderContainer = null;
 
@@ -33,14 +33,14 @@ class PagePresenter {
     pointsModel,
     destinationsModel,
     offersModel,
-    filterModel,
+    filtersModel,
   }) {
     this.#tripEventsContainer = tripEventsContainer;
     this.#tripHeaderContainer = tripHeaderContainer;
     this.#pointsModel = pointsModel;
     this.#destinationsModel = destinationsModel;
     this.#offersModel = offersModel;
-    this.#filterModel = filterModel;
+    this.#filtersModel = filtersModel;
 
     this.#newPointButtonComponent = new NewPointButtonView({
       onNewPointButtonClick: this.#handleNewPointButtonClick
@@ -50,11 +50,11 @@ class PagePresenter {
 
 
     this.#pointsModel.addObserver(this.#handleModeEvent);
-    this.#filterModel.addObserver(this.#handleModeEvent);
+    this.#filtersModel.addObserver(this.#handleModeEvent);
   }
 
   get points() {
-    this.#filterType = this.#filterModel.filter;
+    this.#filterType = this.#filtersModel.filter;
     const points = this.#pointsModel.points;
     const filteredPoints = filter[this.#filterType](points);
 
@@ -63,6 +63,8 @@ class PagePresenter {
         return sortPointByTime(filteredPoints);
       case SortType.PRICE:
         return sortPointByPrice(filteredPoints);
+      case SortType.DEFAULT:
+        return sortPointByDay(filteredPoints);
     }
     return filteredPoints;
   }
@@ -145,7 +147,15 @@ class PagePresenter {
       offers: this.offers,
       onDataChange: this.#handleViewAction,
       onModeChange: this.#handleModeChange,
+      onNewPointEditClose: this.#handleNewPointEditClose
     });
+    this.#newPointButtonComponent.element.disabled = true;
+
+    this.#filtersModel.setFilter(UpdateType.MAJOR, FilterType.EVERYTHING);
+  };
+
+  #handleNewPointEditClose = () => {
+    this.#newPointButtonComponent.element.disabled = false;
   };
 
   #handleSortTypeChange = (sortType) => {

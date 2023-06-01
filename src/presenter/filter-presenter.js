@@ -5,18 +5,18 @@ import { FilterType, UpdateType } from '../utils/const.js';
 
 class FilterPresenter {
   #filtersContainer = null;
-  #filterModel = null;
+  #filtersModel = null;
   #pointsModel = null;
 
   #filterComponent = null;
 
-  constructor({ filtersContainer, filterModel, pointsModel }) {
+  constructor({ filtersContainer, filtersModel, pointsModel }) {
     this.#filtersContainer = filtersContainer;
-    this.#filterModel = filterModel;
+    this.#filtersModel = filtersModel;
     this.#pointsModel = pointsModel;
 
     this.#pointsModel.addObserver(this.#handleModeEvent);
-    this.#filterModel.addObserver(this.#handleModeEvent);
+    this.#filtersModel.addObserver(this.#handleModeEvent);
   }
 
   get filters() {
@@ -36,7 +36,7 @@ class FilterPresenter {
     this.#filterComponent = new FilterView(
       {
         filters,
-        currentFilterType: this.#filterModel.filter,
+        currentFilterType: this.#filtersModel.filter,
         onFilterTypeChange: this.#handleFilterTypeChange
       },
     );
@@ -56,11 +56,11 @@ class FilterPresenter {
   };
 
   #handleFilterTypeChange = (filterType) => {
-    if (this.#filterModel.filter === FilterType) {
+    if (this.#filtersModel.filter === FilterType) {
       return;
     }
 
-    this.#filterModel.setFilter(UpdateType.MAJOR, filterType);
+    this.#filtersModel.setFilter(UpdateType.MAJOR, filterType);
   };
 }
 

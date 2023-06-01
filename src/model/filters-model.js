@@ -1,7 +1,7 @@
 import Observable from '../framework/observable.js';
 import { FilterType } from '../utils/const.js';
 
-class FilterModel extends Observable {
+class FiltersModel extends Observable {
   #filter = FilterType.EVERYTHING;
 
   get filter() {
@@ -14,4 +14,4 @@ class FilterModel extends Observable {
   }
 }
 
-export default FilterModel;
+export default FiltersModel;

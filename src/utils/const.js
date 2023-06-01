@@ -28,13 +28,13 @@ const UpdateType = {
 
 const EMPTY_POINT = {
   'id': '',
-  'basePrice': 0,
+  'basePrice': '',
   'dateFrom': '',
   'dateTo': '',
   'destination': '',
   'isFavorite': false,
   'offers': [],
-  'type': ''
+  'type': 'train'
 };
 
 export { FilterType, SortType, UserAction, UpdateType, EMPTY_POINT };
