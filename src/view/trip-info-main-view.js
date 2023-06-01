@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 
 function createTripInfoTitle(points, destinations) {
   const firstPoint = points.length > 0 ? getPointDestination(points[0], destinations).name : '';
-  const endPoint = getPointDestination(points[points.length - 1], destinations).name;
+  const endPoint = points.length > 1 ? getPointDestination(points[points.length - 1], destinations).name : firstPoint;
 
   let midllePoint = null;
   let tripInfoTitle = '';
@@ -41,19 +41,17 @@ function createTripInfoMainTemplate(points, destinations) {
 class TripInfoMainView extends AbstractView {
   #points = null;
   #destinations = null;
-  #offers = null;
 
-  constructor({ points, destinations, offers }) {
+  constructor({ points, destinations }) {
     super();
-
     this.#points = points;
     this.#destinations = destinations;
-    this.#offers = offers;
   }
 
   get template() {
-    return createTripInfoMainTemplate(this.#points, this.#destinations, this.#offers);
+    return createTripInfoMainTemplate(this.#points, this.#destinations);
   }
+
 }
 
 export default TripInfoMainView;

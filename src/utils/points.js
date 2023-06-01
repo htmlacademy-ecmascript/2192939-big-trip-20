@@ -8,8 +8,8 @@ function getPointOffers(point, offers) {
   return correctOffer.offers;
 }
 
-function getPointAllOffers(point, offers) {
-  return offers.find((offer) => point.type === offer.type);
+function getPointOfferChecked(point, pointOffers) {
+  return pointOffers.map((pointOffer) => point.offers.some((offer) => offer === pointOffer.id));
 }
 
 function getPointOffersId(offers, offersType) {
@@ -24,29 +24,43 @@ function getPointDestinationId(destinations, destinationName) {
   return destinations.find((destination) => destinationName === destination.name).id;
 }
 
-function updatePoint(points, update) {
-  return points.map((point) => point.id === update.id ? update : point);
-}
-
 function durationPoint(point) {
   return dayjs(point.dateTo).diff(dayjs(point.dateFrom));
 }
 
 function sortPointByTime(points) {
-  return points.sort((a, b) => durationPoint(b) - durationPoint(a));
+  return [...points].sort((a, b) => durationPoint(b) - durationPoint(a));
 }
 
 function sortPointByPrice(points) {
-  return points.sort((a, b) => b.basePrice - a.basePrice);
+  return [...points].sort((a, b) => b.basePrice - a.basePrice);
 }
 
+function sortPointByDay(points) {
+  return [...points].sort((a, b) => dayjs(a.dateFrom).diff(dayjs(b.dateFrom)));
+}
+
+function isDateEqual(dateA, dateB) {
+  return dayjs(dateA).isSame(dateB, 'm');
+}
+
+function isPriceEqual(priceA, priceB) {
+  return priceA === priceB;
+}
+
+function getCitiesName(destinations) {
+  return destinations.map((destination) => destination.name);
+}
 export {
   getPointOffers,
+  getPointOfferChecked,
   getPointDestination,
   getPointDestinationId,
-  getPointAllOffers,
   getPointOffersId,
-  updatePoint,
   sortPointByTime,
   sortPointByPrice,
+  sortPointByDay,
+  isDateEqual,
+  isPriceEqual,
+  getCitiesName
 };

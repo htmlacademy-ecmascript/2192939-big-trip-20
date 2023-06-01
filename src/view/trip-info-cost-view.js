@@ -1,11 +1,14 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import { getPointOffers } from '../utils/points.js';
 
 function createTripInfoCostView(points, offers) {
   let costOffers = 0;
   const costPoints = points.reduce((sum, point) => sum + point.basePrice, 0);
+
   for (const point of points) {
-    costOffers += getPointOffers(point, offers).reduce((sum, offer) => sum + offer.price, 0);
+    const pointOffers = offers.find((offer) => offer.type === point.type).offers;
+    for (const offerId of point.offers) {
+      costOffers += pointOffers.find((pointOffer) => pointOffer.id === offerId).price;
+    }
   }
 
   return /*html*/`<p class="trip-info__cost">
@@ -16,15 +19,13 @@ class TripInfoCostView extends AbstractView {
   #points = null;
   #offers = null;
 
-  constructor({ points, offers }) {
-    super();
-
-    this.#points = points;
-    this.#offers = offers;
-  }
-
   get template() {
     return createTripInfoCostView(this.#points, this.#offers);
+  }
+
+  init({ points, offers }) {
+    this.#points = points;
+    this.#offers = offers;
   }
 }
 

@@ -14,4 +14,27 @@ const SortType = {
   OFFERS: 'offers',
 };
 
-export { FilterType, SortType };
+const UserAction = {
+  UPDATE_POINT: 'UPDATE_POINT',
+  ADD_POINT: 'ADD_POINT',
+  DELETE_POINT: 'DELETE_POINT',
+};
+
+const UpdateType = {
+  PATCH: 'PATCH',
+  MINOR: 'MINOR',
+  MAJOR: 'MAJOR',
+};
+
+const EMPTY_POINT = {
+  'id': '',
+  'basePrice': '',
+  'dateFrom': '',
+  'dateTo': '',
+  'destination': '',
+  'isFavorite': false,
+  'offers': [],
+  'type': 'train'
+};
+
+export { FilterType, SortType, UserAction, UpdateType, EMPTY_POINT };

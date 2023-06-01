@@ -4,14 +4,12 @@ const mockPoints = [
   {
     'id': '1',
     'basePrice': 1100,
-    'dateFrom': '2023-01-10T22:00:00.00Z',
-    'dateTo': '2023-01-11T11:00:00.00Z',
+    'dateFrom': '2023-05-10T22:00:00.00Z',
+    'dateTo': '2023-05-31T11:10:00.00Z',
     'destination': '1',
     'isFavorite': false,
     'offers': [
-      '1',
-      '3',
-      '4'
+      '1'
     ],
     'type': 'taxi'
   },
@@ -22,12 +20,7 @@ const mockPoints = [
     'dateTo': '2023-02-11T10:22:13.375Z',
     'destination': '2',
     'isFavorite': true,
-    'offers': [
-      '2',
-      '5',
-      '6',
-      '9'
-    ],
+    'offers': [],
     'type': 'bus'
   },
   {
@@ -39,7 +32,6 @@ const mockPoints = [
     'isFavorite': true,
     'offers': [
       '3',
-      '9'
     ],
     'type': 'train'
   },
@@ -60,8 +52,8 @@ const mockPoints = [
   {
     'id': '5',
     'basePrice': 2700,
-    'dateFrom': '2023-05-10T22:55:56.845Z',
-    'dateTo': '2023-05-11T11:22:13.375Z',
+    'dateFrom': '2023-05-25T02:55:56.845Z',
+    'dateTo': '2023-05-25T11:22:13.375Z',
     'destination': '5',
     'isFavorite': true,
     'offers': [
@@ -79,9 +71,6 @@ const mockPoints = [
     'offers': [
       '6',
       '5',
-      '7',
-      '8',
-      '9'
     ],
     'type': 'flight'
   },
@@ -104,23 +93,18 @@ const mockPoints = [
     'isFavorite': false,
     'offers': [
       '8',
-      '7',
-      '9'
     ],
     'type': 'sightseeing'
   },
   {
     'id': '9',
     'basePrice': 2000,
-    'dateFrom': '2023-08-10T22:55:56.845Z',
-    'dateTo': '2023-08-11T11:22:13.375Z',
+    'dateFrom': '2023-05-25T02:55:56.845Z',
+    'dateTo': '2023-05-25T11:22:13.375Z',
     'destination': '9',
     'isFavorite': true,
     'offers': [
-      '9',
-      '1',
-      '2',
-      '5'
+      '7',
     ],
     'type': 'restaurant'
   }
@@ -172,6 +156,22 @@ const mockDestinations = [
     'description': 'Vienna: Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis.',
     'name': 'Vienna',
     'pictures': [
+      {
+        'src': 'img/photos/4.jpg',
+        'description': 'Lorem ipsum dolor sit amet'
+      },
+      {
+        'src': 'img/photos/5.jpg',
+        'description': 'Lorem ipsum dolor sit amet'
+      },
+      {
+        'src': 'img/photos/3.jpg',
+        'description': 'Lorem ipsum dolor sit amet'
+      },
+      {
+        'src': 'img/photos/2.jpg',
+        'description': 'Lorem ipsum dolor sit amet'
+      },
       {
         'src': 'img/photos/4.jpg',
         'description': 'Lorem ipsum dolor sit amet'
@@ -325,11 +325,6 @@ const mockOffers = [
         'price': 180
       },
       {
-        'id': '4',
-        'title': 'Offer - 1',
-        'price': 120
-      },
-      {
         'id': '5',
         'title': 'Offer - 5',
         'price': 150
@@ -352,11 +347,6 @@ const mockOffers = [
         'id': '4',
         'title': 'Offer - 1',
         'price': 120
-      },
-      {
-        'id': '5',
-        'title': 'Offer - 5',
-        'price': 150
       },
       {
         'id': '6',

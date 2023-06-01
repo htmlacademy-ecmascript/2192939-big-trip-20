@@ -1,16 +1,20 @@
 import dayjs from 'dayjs';
-import { getPointOffers, getPointDestination } from '../utils/points.js';
+import { getPointOffers, getPointDestination, getPointOfferChecked } from '../utils/points.js';
 import { getTimeTravel } from '../utils/date.js';
 import AbstractView from '../framework/view/abstract-view.js';
 
-function createPointList(pointOffers) {
+function createPointListOffers(point, offers) {
+  const pointOffers = getPointOffers(point, offers);
+  const isPointOffersChecked = getPointOfferChecked(point, pointOffers);
   let pointList = '';
-  pointOffers.forEach((pointOffer) => {
-    pointList += `<li class="event__offer">
+  pointOffers.forEach((pointOffer, index) => {
+    if (isPointOffersChecked[index]) {
+      pointList += `<li class="event__offer">
                       <span class="event__offer-title">${pointOffer.title}</span>
                       &plus;&euro;&nbsp;
                       <span class="event__offer-price">${pointOffer.price}</span>
                     </li>`;
+    }
   });
   return pointList;
 }
@@ -18,7 +22,6 @@ function createPointList(pointOffers) {
 function createPointView(point, destinations, offers) {
   const favoriteClassName = point.isFavorite ? 'event__favorite-btn--active' : '';
   const timeTravel = getTimeTravel(point.dateFrom, point.dateTo);
-  const pointOffers = getPointOffers(point, offers);
   const pointDestination = getPointDestination(point, destinations);
 
   return /*html*/`<li class="trip-events__item">
@@ -41,7 +44,7 @@ function createPointView(point, destinations, offers) {
                 </p>
                 <h4 class="visually-hidden">Offers:</h4>
                 <ul class="event__selected-offers">
-                  ${createPointList(pointOffers)}
+                  ${createPointListOffers(point, offers)}
                 </ul>
                 <button class="event__favorite-btn ${favoriteClassName}" type="button">
                   <span class="visually-hidden">Add to favorite</span>
