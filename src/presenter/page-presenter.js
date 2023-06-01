@@ -23,6 +23,7 @@ class PagePresenter {
   #newPointButtonComponent = null;
 
   #pointPresenters = new Map();
+  #pointPresenter = null;
   #newPointPresenter = null;
   #currentSortType = SortType.DEFAULT;
   #filterType = FilterType.EVERYTHING;
@@ -109,15 +110,15 @@ class PagePresenter {
   }
 
   #renderPoint(point, destinations, offers) {
-    const pointPresenter = new PointPresenter({
+    this.#pointPresenter = new PointPresenter({
       listPointContainer:
         this.#listPointComponent.element,
       onDataChange: this.#handleViewAction,
       onModeChange: this.#handleModeChange,
     });
 
-    pointPresenter.init(point, destinations, offers);
-    this.#pointPresenters.set(point.id, pointPresenter);
+    this.#pointPresenter.init(point, destinations, offers);
+    this.#pointPresenters.set(point.id, this.#pointPresenter);
   }
 
   #clearListPoint({ resetSortType = false } = {}) {
@@ -152,6 +153,7 @@ class PagePresenter {
     this.#newPointButtonComponent.element.disabled = true;
 
     this.#filtersModel.setFilter(UpdateType.MAJOR, FilterType.EVERYTHING);
+
   };
 
   #handleNewPointEditClose = () => {
