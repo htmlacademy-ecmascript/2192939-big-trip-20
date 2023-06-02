@@ -1,17 +1,17 @@
 import Observable from '../framework/observable.js';
 import { generateOffers } from '../mock/point.js';
 
-/**
- * @class Модель офферов точки маршрута
- * @extends {Observable}
- */
 class OffersModel extends Observable {
+  #offersApiService = null;
   #offers = generateOffers();
 
-  /**
-   * Геттер массива офферов точки маршрута
-   * @returns {Array.<objects>} #offers
-   */
+  constructor({ offersApiService }) {
+    super();
+    this.#offersApiService = offersApiService;
+
+    this.#offersApiService.offers.then((offers) => console.log(offers));
+  }
+
   get offers() {
     return this.#offers;
   }

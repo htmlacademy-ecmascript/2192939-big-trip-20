@@ -6,12 +6,18 @@ import { generateDestinations } from '../mock/point.js';
  * @extends Observable
  */
 class DestinationsModel extends Observable {
+  #destinationsApiService = null;
   #destinations = generateDestinations();
 
-  /**
-   * Геттер массива описаний точки маршрута
-   * @returns {Array.<objects>} #destinations
-   */
+  constructor({ destinationsApiService }) {
+    super();
+    this.#destinationsApiService = destinationsApiService;
+
+    this.#destinationsApiService.destinations.then((destinations) => console.log(destinations));
+
+
+  }
+
   get destinations() {
     return this.#destinations;
   }
