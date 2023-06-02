@@ -3,6 +3,7 @@ import SortView from '../view/sort-view.js';
 import ListPointView from '../view/list-point-view.js';
 import NoPointView from '../view/no-point-view.js';
 import NewPointButtonView from '../view/new-point-button-view.js';
+import LoadingView from '../view/loading-view.js';
 import PointPresenter from './point-presenter.js';
 import NewPointPresenter from './new-point-presenter.js';
 import { sortPointByTime, sortPointByPrice, sortPointByDay, } from '../utils/points.js';
@@ -21,12 +22,14 @@ class PagePresenter {
   #listPointComponent = new ListPointView();
   #noPointComponent = null;
   #newPointButtonComponent = null;
+  #loadingComponent = new LoadingView();
 
   #pointPresenters = new Map();
   #pointPresenter = null;
   #newPointPresenter = null;
   #currentSortType = SortType.DEFAULT;
   #filterType = FilterType.EVERYTHING;
+  #isLoading = true;
 
   constructor({
     tripEventsContainer,
@@ -88,6 +91,11 @@ class PagePresenter {
       return;
     }
 
+    if (this.#isLoading) {
+      this.#renderLoadingComponent();
+      return;
+    }
+
     this.#renderSort();
 
     this.#renderListPointComponent(this.#listPointComponent, this.#tripEventsContainer);
@@ -126,6 +134,7 @@ class PagePresenter {
     this.#pointPresenters.clear();
 
     remove(this.#sortPointComponent);
+    remove(this.#loadingComponent);
     if (this.#noPointComponent) {
       remove(this.#noPointComponent);
     }
@@ -138,6 +147,10 @@ class PagePresenter {
   #renderNoPointComponent() {
     this.#noPointComponent = new NoPointView({ filterType: this.#filterType });
     render(this.#noPointComponent, this.#tripEventsContainer, RenderPosition.AFTERBEGIN);
+  }
+
+  #renderLoadingComponent() {
+    render(this.#loadingComponent, this.#tripEventsContainer, RenderPosition.AFTERBEGIN);
   }
 
   #handleNewPointButtonClick = () => {
@@ -191,6 +204,11 @@ class PagePresenter {
       case UpdateType.MAJOR:
         this.#clearListPoint({ resetSortType: true });
 
+        this.#renderListPoint();
+        break;
+      case UpdateType.INIT:
+        this.#isLoading = false;
+        remove(this.#loadingComponent);
         this.#renderListPoint();
         break;
     }

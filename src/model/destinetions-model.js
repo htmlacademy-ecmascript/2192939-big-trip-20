@@ -16,6 +16,7 @@ class DestinationsModel extends Observable {
   async init() {
     try {
       this.#destinations = this.#destinationsApiService.destinations;
+      console.log(this.#destinations);
     } catch (err) {
       this.#destinations = [];
     }

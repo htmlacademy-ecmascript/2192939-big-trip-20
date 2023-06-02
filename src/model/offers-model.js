@@ -15,7 +15,7 @@ class OffersModel extends Observable {
 
   async init() {
     try {
-      this.#offers = this.#offersApiService.offers``;
+      this.#offers = this.#offersApiService.offers;
     } catch (err) {
       this.#offers = [];
     }

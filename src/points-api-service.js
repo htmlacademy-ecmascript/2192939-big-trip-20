@@ -8,8 +8,9 @@ const Method = {
 class PointsApiService extends ApiService {
 
   get points() {
-    return this._load({ url: 'points' })
+    const points = this._load({ url: 'points' })
       .then(ApiService.parseResponse);
+    return points;
   }
 
   async updatePoint(point) {

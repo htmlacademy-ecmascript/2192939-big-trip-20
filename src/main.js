@@ -7,7 +7,7 @@ import PointsApiService from './points-api-service.js';
 import DestinationsApiService from './destinations-api-service.js';
 import OffersApiService from './offers-api-service.js';
 
-const AUTHORIZATION = 'Basic Ljcnjtdcrbq&Kerzytyrj';
+const AUTHORIZATION = 'Basic Kerzytyrj&Ljcnjtdcrbq';
 const END_POINT = 'https://20.objects.pages.academy/big-trip';
 
 const pointsModel = new PointsModel({

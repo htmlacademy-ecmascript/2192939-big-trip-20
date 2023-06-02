@@ -1,4 +1,5 @@
 import Observable from '../framework/observable.js';
+import { UpdateType } from '../utils/const.js';
 
 class PointsModel extends Observable {
   #pointsApiService = null;
@@ -20,6 +21,8 @@ class PointsModel extends Observable {
     } catch (err) {
       this.#points = [];
     }
+
+    this._notify(UpdateType.INIT);
   }
 
   updatePoint(updateType, update) {
