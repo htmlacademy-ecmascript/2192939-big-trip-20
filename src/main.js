@@ -32,4 +32,7 @@ const rootPresenter = new RootPresenter({
   filtersContainer
 });
 
+pointsModel.init();
+destinationsModel.init();
+offersModel.init();
 rootPresenter.init(pointsModel, destinationsModel, offersModel, filtersModel);

@@ -1,23 +1,25 @@
 import Observable from '../framework/observable.js';
-import { generateRandomPoint } from '../mock/point.js';
-import { getRandomInteger } from '../utils/common.js';
-import dayjs from 'dayjs';
 
-const POINT_COUNT = getRandomInteger(2, 3);
 class PointsModel extends Observable {
   #pointsApiService = null;
-  #points = Array.from({ length: POINT_COUNT }, generateRandomPoint)
-    .sort((a, b) => dayjs(a.dateFrom).diff(dayjs(b.dateFrom)));
+  #points = [];
 
   constructor({ pointsApiService }) {
     super();
     this.#pointsApiService = pointsApiService;
-
-    this.#pointsApiService.points.then((points) => console.log(points.map(this.#adaptToClient)));
   }
 
   get points() {
     return this.#points;
+  }
+
+  async init() {
+    try {
+      const points = this.#pointsApiService.points;
+      this.#points = points.map(this.#adaptToClient);
+    } catch (err) {
+      this.#points = [];
+    }
   }
 
   updatePoint(updateType, update) {
