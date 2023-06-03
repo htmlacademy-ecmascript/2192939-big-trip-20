@@ -3,6 +3,8 @@ import { getPointDestination } from '../utils/points.js';
 import dayjs from 'dayjs';
 
 function createTripInfoTitle(points, destinations) {
+  console.log(points, destinations);
+
   const firstPoint = points.length > 0 ? getPointDestination(points[0], destinations).name : '';
   const endPoint = points.length > 1 ? getPointDestination(points[points.length - 1], destinations).name : firstPoint;
 
@@ -28,6 +30,7 @@ function createTripInfoTitle(points, destinations) {
 }
 
 function createTripInfoMainTemplate(points, destinations) {
+
   const firstDate = points.length > 0 ? dayjs(points[0].dateFrom).format('MMM DD') : '';
   const secondDate = points.length > 1 ? `${'&nbsp;&mdash;&nbsp;'}${dayjs(points[points.length - 1].dateTo).format('MMM DD')}` : '';
 

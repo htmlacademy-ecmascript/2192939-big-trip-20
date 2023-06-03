@@ -75,7 +75,6 @@ class HeaderPresenter extends AbstractView {
       return;
     }
 
-    this.#renderTripInfo();
     this.#filtersPresenter.init();
   }
 
@@ -122,6 +121,11 @@ class HeaderPresenter extends AbstractView {
         break;
 
       case UpdateType.INIT:
+        this.#renderTripInfo();
+
+        if (!this.points.length || !this.destinations.length || !this.offers.length) {
+          return;
+        }
         this.#tripInfoMainComponent = new TripInfoMainView({
           points: this.points,
           destinations: this.destinations,
