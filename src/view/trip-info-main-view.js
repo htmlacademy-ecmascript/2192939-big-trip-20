@@ -3,7 +3,6 @@ import { getPointDestination } from '../utils/points.js';
 import dayjs from 'dayjs';
 
 function createTripInfoTitle(points, destinations) {
-  console.log(points, destinations);
 
   const firstPoint = points.length > 0 ? getPointDestination(points[0], destinations).name : '';
   const endPoint = points.length > 1 ? getPointDestination(points[points.length - 1], destinations).name : firstPoint;
