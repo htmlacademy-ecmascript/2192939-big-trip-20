@@ -246,12 +246,13 @@ class EditPointFormView extends AbstractStatefulView {
   }
 
   _restoreHandlers() {
-    this.element.querySelector('.event--edit').addEventListener('submit', this.#formSubmitHandler);
     if (this.#point.id) {
       this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#formCloseHandler);
+    } else {
+      this.element.querySelector('.event__reset-btn').addEventListener('click', this.#formCancelClickHandler);
     }
+    this.element.querySelector('.event--edit').addEventListener('submit', this.#formSubmitHandler);
     this.element.querySelector('.event__reset-btn').addEventListener('click', this.#formDeleteClickHandler);
-    this.element.querySelector('.event__reset-btn').addEventListener('click', this.#formCancelClickHandler);
     this.element.querySelector('.event__type-group').addEventListener('change', this.#typeChangeHandler);
     this.element.querySelector('.event__input--destination').addEventListener('change', this.#destinationChangeHandler);
     this.element.querySelector('.event__input--price').addEventListener('change', this.#basePriceChangeHandler);
