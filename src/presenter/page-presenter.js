@@ -82,17 +82,18 @@ class PagePresenter {
   }
 
   init() {
-    this.#renderListPoint(this.points, this.#listPointComponent, this.#tripEventsContainer);
+    this.#renderListPoint();
   }
 
   #renderListPoint() {
-    if (!this.points.length) {
-      this.#renderNoPointComponent();
-      return;
-    }
 
     if (this.#isLoading) {
       this.#renderLoadingComponent();
+      return;
+    }
+
+    if (!this.points.length) {
+      this.#renderNoPointComponent();
       return;
     }
 

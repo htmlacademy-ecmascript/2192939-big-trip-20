@@ -4,6 +4,7 @@ import TripInfoMainView from '../view/trip-info-main-view.js';
 import TripInfoCostView from '../view/trip-info-cost-view.js';
 import AbstractView from '../framework/view/abstract-view.js';
 import FilterPresenter from './filter-presenter.js';
+import { UpdateType } from '../utils/const.js';
 
 
 class HeaderPresenter extends AbstractView {
@@ -50,6 +51,8 @@ class HeaderPresenter extends AbstractView {
     });
 
     this.#pointsModel.addObserver(this.#handleModeEvent);
+    this.#destinationsModel.addObserver(this.#handleModeEvent);
+    this.#offersModel.addObserver(this.#handleModeEvent);
     this.#filtersModel.addObserver(this.#handleModeEvent);
   }
 
@@ -74,8 +77,6 @@ class HeaderPresenter extends AbstractView {
 
     this.#renderTripInfo();
     this.#filtersPresenter.init();
-    this.#renderTripInfoMain();
-    this.#renderTripInfoCost();
   }
 
 
@@ -95,24 +96,45 @@ class HeaderPresenter extends AbstractView {
     render(this.#tripInfoCostComponent, this.#tripInfoComponent.element);
   }
 
-  #handleModeEvent = () => {
-    if (!this.points.length) {
-      remove(this.#tripInfoComponent);
-      return;
-    }
-    remove(this.#tripInfoMainComponent);
-    this.#tripInfoMainComponent = new TripInfoMainView({
-      points: this.points,
-      destinations: this.destinations,
-    });
-    this.#renderTripInfoMain();
+  #handleModeEvent = (updateType) => {
+    switch (updateType) {
+      case UpdateType.PATCH:
+      case UpdateType.MINOR:
+      case UpdateType.MAJOR:
 
-    remove(this.#tripInfoCostComponent);
-    this.#tripInfoCostComponent = new TripInfoCostView({
-      points: this.points,
-      offers: this.offers
-    });
-    this.#renderTripInfoCost();
+        if (!this.points.length) {
+          remove(this.#tripInfoComponent);
+          return;
+        }
+        remove(this.#tripInfoMainComponent);
+        this.#tripInfoMainComponent = new TripInfoMainView({
+          points: this.points,
+          destinations: this.destinations,
+        });
+        this.#renderTripInfoMain();
+
+        remove(this.#tripInfoCostComponent);
+        this.#tripInfoCostComponent = new TripInfoCostView({
+          points: this.points,
+          offers: this.offers
+        });
+        this.#renderTripInfoCost();
+        break;
+
+      case UpdateType.INIT:
+        this.#tripInfoMainComponent = new TripInfoMainView({
+          points: this.points,
+          destinations: this.destinations,
+        });
+        this.#renderTripInfoMain();
+
+        this.#tripInfoCostComponent = new TripInfoCostView({
+          points: this.points,
+          offers: this.offers
+        });
+        this.#renderTripInfoCost();
+        break;
+    }
   };
 }
 

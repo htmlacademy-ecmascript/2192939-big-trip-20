@@ -1,6 +1,6 @@
 import RootPresenter from './presenter/root-presenter.js';
 import PointsModel from './model/points-model.js';
-import DestinationsModel from './model/destinetions-model.js';
+import DestinationsModel from './model/destinations-model.js';
 import OffersModel from './model/offers-model.js';
 import FiltersModel from './model/filters-model.js';
 import PointsApiService from './points-api-service.js';
@@ -32,7 +32,7 @@ const rootPresenter = new RootPresenter({
   filtersContainer
 });
 
-pointsModel.init();
 destinationsModel.init();
 offersModel.init();
+pointsModel.init();
 rootPresenter.init(pointsModel, destinationsModel, offersModel, filtersModel);
