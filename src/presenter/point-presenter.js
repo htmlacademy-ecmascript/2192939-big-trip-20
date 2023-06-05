@@ -147,6 +147,9 @@ class PointPresenter {
   };
 
   #handleFormSubmit = (point) => {
+    if (!point.destination || !point.dateFrom || !point.dateTo || !point.basePrice) {
+      this.#pointEditComponent.shake();
+    }
 
     const isMinorUpdate = !isDateEqual(this.#point.dateFrom, point.dateFrom) ||
       !isDateEqual(this.#point.dateTo, point.dateTo) ||
