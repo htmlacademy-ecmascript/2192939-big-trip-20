@@ -36,6 +36,7 @@ class PagePresenter {
   #currentSortType = SortType.DEFAULT;
   #filterType = FilterType.EVERYTHING;
   #isLoading = true;
+  #isNewPoint = false;
 
   #uiBlocker = new UiBlocker({
     lowerLimit: TimeLimit.LOWER_LIMIT,
@@ -135,6 +136,7 @@ class PagePresenter {
         this.#listPointComponent.element,
       onDataChange: this.#handleViewAction,
       onModeChange: this.#handleModeChange,
+      isNewPoint: this.#isNewPoint
     });
 
     this.#pointPresenter.init(point, destinations, offers);
@@ -170,6 +172,7 @@ class PagePresenter {
   }
 
   #handleNewPointButtonClick = () => {
+    this.#isNewPoint = true;
     this.#filtersModel.setFilter(UpdateType.MAJOR, FilterType.EVERYTHING);
 
     this.#newPointPresenter = new NewPointPresenter({
@@ -186,6 +189,8 @@ class PagePresenter {
 
   #handleNewPointEditClose = () => {
     this.#newPointButtonComponent.element.disabled = false;
+    this.#isNewPoint = false;
+    this.#handleModeEvent(UpdateType.MINOR);
   };
 
   #handleSortTypeChange = (sortType) => {
