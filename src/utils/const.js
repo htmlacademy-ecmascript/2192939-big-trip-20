@@ -28,7 +28,6 @@ const UpdateType = {
 };
 
 const EMPTY_POINT = {
-  'id': '',
   'basePrice': '',
   'dateFrom': '',
   'dateTo': '',
@@ -38,4 +37,10 @@ const EMPTY_POINT = {
   'type': 'train'
 };
 
-export { FilterType, SortType, UserAction, UpdateType, EMPTY_POINT };
+const PathName = {
+  POINTS: 'points',
+  DESTINATIONS: 'destinations',
+  OFFERS: 'offers',
+};
+
+export { FilterType, SortType, UserAction, UpdateType, EMPTY_POINT, PathName };

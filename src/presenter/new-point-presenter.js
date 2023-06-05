@@ -3,24 +3,22 @@ import { render, remove, RenderPosition } from '../framework/render.js';
 import { UpdateType, UserAction } from '../utils/const.js';
 
 class NewPointPresenter {
-  #listPointContainer;
+  #listPointContainer = null;
   #point = null;
   #destinations = null;
   #offers = null;
   #newPointFormComponent = null;
   #handleDataChange = null;
-  #handleModeChange = null;
   #handleNewPointEditClose = null;
 
 
   constructor({ listPointContainer,
-    point, destinations, offers, onDataChange, onModeChange, onNewPointEditClose }) {
+    point, destinations, offers, onDataChange, onNewPointEditClose }) {
     this.#listPointContainer = listPointContainer;
     this.#point = point;
     this.#destinations = destinations;
     this.#offers = offers;
     this.#handleDataChange = onDataChange;
-    this.#handleModeChange = onModeChange;
     this.#handleNewPointEditClose = onNewPointEditClose;
 
     this.#newPointFormComponent = new EditPointFormView({
@@ -35,14 +33,37 @@ class NewPointPresenter {
     document.addEventListener('keydown', this.#escKeyDownHandler);
   }
 
+  destroy() {
+    remove(this.#newPointFormComponent);
+  }
+
+  setSaving() {
+    this.#newPointFormComponent.updateElement({
+      isDisabled: true,
+      isSaving: true,
+    });
+  }
+
+  setAborting() {
+    const resetFormState = () => {
+      this.#newPointFormComponent.updateElement({
+        isDisabled: false,
+        isSaving: false,
+        isDeleting: false,
+      });
+    };
+
+    this.#newPointFormComponent.shake(resetFormState);
+  }
+
   #handleFormSubmit = (point) => {
     this.#handleDataChange(
       UserAction.ADD_POINT,
       UpdateType.MINOR,
       point);
-    remove(this.#newPointFormComponent);
     document.removeEventListener('keydown', this.#escKeyDownHandler);
     this.#handleNewPointEditClose();
+
   };
 
   #escKeyDownHandler = (evt) => {
@@ -65,8 +86,6 @@ class NewPointPresenter {
     document.removeEventListener('keydown', this.#escKeyDownHandler);
     this.#handleNewPointEditClose();
   };
-
-
 }
 
 export default NewPointPresenter;

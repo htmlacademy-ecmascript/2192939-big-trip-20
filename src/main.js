@@ -8,7 +8,7 @@ import DestinationsApiService from './destinations-api-service.js';
 import OffersApiService from './offers-api-service.js';
 
 const AUTHORIZATION = 'Basic Kerzytyrj&Ljcnjtdcrbq';
-const END_POINT = 'https://20.objects.pages.academy/big-trip';
+const END_POINT = 'https://20.ecmascript.pages.academy/big-trip';
 
 const pointsModel = new PointsModel({
   pointsApiService: new PointsApiService(END_POINT, AUTHORIZATION)
