@@ -4,6 +4,7 @@ import ListPointView from '../view/list-point-view.js';
 import NoPointView from '../view/no-point-view.js';
 import NewPointButtonView from '../view/new-point-button-view.js';
 import LoadingView from '../view/loading-view.js';
+import ServerErrorView from '../view/server-error-view.js';
 import PointPresenter from './point-presenter.js';
 import NewPointPresenter from './new-point-presenter.js';
 import UiBlocker from '../framework/ui-blocker/ui-blocker.js';
@@ -29,6 +30,7 @@ class PagePresenter {
   #noPointComponent = null;
   #newPointButtonComponent = null;
   #loadingComponent = new LoadingView();
+  #serverErrorComponent = null;
 
   #pointPresenters = new Map();
   #pointPresenter = null;
@@ -162,6 +164,11 @@ class PagePresenter {
     }
   }
 
+  #renderServerErrorComponent() {
+    this.#serverErrorComponent = new ServerErrorView();
+    render(this.#serverErrorComponent, this.#tripEventsContainer, RenderPosition.AFTERBEGIN);
+  }
+
   #renderNoPointComponent() {
     this.#noPointComponent = new NoPointView({ filterType: this.#filterType });
     render(this.#noPointComponent, this.#tripEventsContainer, RenderPosition.AFTERBEGIN);
@@ -231,6 +238,10 @@ class PagePresenter {
         remove(this.#loadingComponent);
         this.#renderListPoint();
         break;
+      case UpdateType.ERROR:
+        this.#isLoading = false;
+        remove(this.#loadingComponent);
+        this.#renderServerErrorComponent();
     }
   };
 
