@@ -59,6 +59,7 @@ class NewPointPresenter {
   #handleFormSubmit = (point) => {
     if (!point.destination || !point.dateFrom || !point.dateTo || !point.basePrice) {
       this.#newPointFormComponent.shake();
+      return;
     }
     this.#handleDataChange(
       UserAction.ADD_POINT,
