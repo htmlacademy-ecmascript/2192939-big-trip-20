@@ -28,7 +28,7 @@ function createPointTypeList(point) {
   return /*html*/`    <div class="event__type-wrapper">
       <label class="event__type  event__type-btn" for="event-type-toggle-1">
         <span class="visually-hidden">Choose event type</span>
-        <img class="event__type-icon" width="17" height="17" src="img/icons/${point.type}.png" alt="Event type icon">
+        <img class="event__type-icon" width="17" height="17" src="img/icons/${he.encode(point.type)}.png" alt="Event type icon">
       </label>
       <input class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox" ${isDisabled ? 'disabled' : ''}>
 
@@ -36,7 +36,7 @@ function createPointTypeList(point) {
         <fieldset class="event__type-group">
           <legend class="visually-hidden">Event type</legend>
 
-          ${createPointTypeItem(point)}
+          ${createPointTypeItem()}
 
         </fieldset>
       </div>
@@ -53,7 +53,7 @@ function createPointOfferList(point, pointOffers) {
       id="event-offer-${pointOffer.id}" type="checkbox" data-offer-id=${pointOffer.id}
       name="event-offer-luggage" ${isPointOffersChecked[index] ? 'checked' : ''} ${isDisabled ? 'disabled' : ''}>
       <label class="event__offer-label" for="event-offer-${pointOffer.id}">
-        <span class="event__offer-title">${pointOffer.title}</span>
+        <span class="event__offer-title">${he.encode(pointOffer.title)}</span>
         &plus;&euro;&nbsp;
         <span class="event__offer-price">${pointOffer.price}</span>
       </label>
@@ -109,7 +109,7 @@ function hideButton(point) {
 function createEditPointFormTemplate(point, destinations, offers) {
   const { isDisabled, isSaving, isDeleting } = point;
   const pointDestination = point.destination ? getPointDestination(point, destinations) : '';
-  const destinationName = point.destination ? pointDestination.name : '';
+  const destinationName = point.destination ? he.encode(pointDestination.name) : '';
   return/*html*/`<li class="trip-events__item">
   <form class="event event--edit" action="#" method="post">
   <header class="event__header">
@@ -125,7 +125,7 @@ function createEditPointFormTemplate(point, destinations, offers) {
       value=${destinationName} ${isDisabled ? 'disabled' : ''}>
       <datalist id="destination-list-1">
 
-      ${getCitiesName(destinations).map((cityName) => `<option value=${cityName}></option>`)}
+      ${getCitiesName(destinations).map((cityName) => `<option value=${he.encode(cityName)}></option>`)}
 
       </datalist >
     </div >
@@ -325,6 +325,9 @@ class EditPointFormView extends AbstractStatefulView {
     evt.preventDefault();
     if (!isDestination) {
       evt.target.value = '';
+      this.updateElement({
+        destination: ''
+      });
       return;
     }
     this.updateElement({

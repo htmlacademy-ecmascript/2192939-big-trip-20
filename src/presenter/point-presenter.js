@@ -23,11 +23,13 @@ class PointPresenter {
   #handleModeChange = null;
 
   #mode = Mode.DEFAULT;
+  #isNewPoint = false;
 
-  constructor({ listPointContainer, onDataChange, onModeChange }) {
+  constructor({ listPointContainer, onDataChange, onModeChange, isNewPoint }) {
     this.#listPointContainer = listPointContainer;
     this.#handleDataChange = onDataChange;
     this.#handleModeChange = onModeChange;
+    this.#isNewPoint = isNewPoint;
   }
 
   init(point, destinations, offers) {
@@ -142,11 +144,18 @@ class PointPresenter {
   };
 
   #handleEditClick = () => {
+    if (this.#isNewPoint) {
+      return;
+    }
     this.#replacePointToForm();
     document.addEventListener('keydown', this.#escKeyDownHandler);
   };
 
   #handleFormSubmit = (point) => {
+    if (!point.destination || !point.dateFrom || !point.dateTo || !point.basePrice) {
+      this.#pointEditComponent.shake();
+      return;
+    }
 
     const isMinorUpdate = !isDateEqual(this.#point.dateFrom, point.dateFrom) ||
       !isDateEqual(this.#point.dateTo, point.dateTo) ||
