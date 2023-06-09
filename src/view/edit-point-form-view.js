@@ -14,10 +14,10 @@ import 'flatpickr/dist/flatpickr.min.css';
 const POINT_TYPES = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'sightseeing', 'restaurant'];
 const POINT_DEFAULT = 'train';
 
-function createPointTypeItem() {
+function createPointTypeItem(point) {
   return POINT_TYPES.map((pointType) =>
   /*html*/`<div class="event__type-item">
-            <input id="event-type-${pointType}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value=${pointType}>
+            <input id="event-type-${pointType}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value=${pointType} ${point.type === pointType ? 'checked' : ''}>
             <label class="event__type-label  event__type-label--${pointType}" for="event-type-${pointType}-1">${pointType}</label>
           </div>`
   ).join('');
@@ -36,7 +36,7 @@ function createPointTypeList(point) {
         <fieldset class="event__type-group">
           <legend class="visually-hidden">Event type</legend>
 
-          ${createPointTypeItem()}
+          ${createPointTypeItem(point)}
 
         </fieldset>
       </div>

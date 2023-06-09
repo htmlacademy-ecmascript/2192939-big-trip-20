@@ -32,7 +32,12 @@ const rootPresenter = new RootPresenter({
   filtersContainer
 });
 
-destinationsModel.init();
-offersModel.init();
-pointsModel.init();
+const runApplication = async () => {
+  await destinationsModel.init();
+  await offersModel.init();
+  await pointsModel.init();
+};
+
+runApplication();
+
 rootPresenter.init(pointsModel, destinationsModel, offersModel, filtersModel);
