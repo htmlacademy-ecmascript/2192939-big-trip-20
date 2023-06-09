@@ -2,7 +2,6 @@ import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 
 const ETime = {
-  MsInMinute: 1000 * 60,
   MsInHour: 1000 * 60 * 60,
   MsInDay: 1000 * 60 * 60 * 24,
 };
@@ -18,7 +17,7 @@ function getTimeTravel(date1, date2) {
   if (timeDiff >= ETime.MsInHour) {
     return dayjs.duration(timeDiff).format('HH[H] mm[M]');
   }
-  if (timeDiff < ETime.MsInMinute) {
+  if (timeDiff < ETime.MsInHour) {
     return dayjs.duration(timeDiff).format('mm[M]');
   }
 }

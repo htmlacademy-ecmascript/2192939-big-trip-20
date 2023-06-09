@@ -191,6 +191,7 @@ class PagePresenter {
       onModeChange: this.#handleModeChange,
       onNewPointEditClose: this.#handleNewPointEditClose
     });
+
     this.#newPointButtonComponent.element.disabled = true;
   };
 

@@ -65,15 +65,16 @@ class NewPointPresenter {
       UserAction.ADD_POINT,
       UpdateType.MINOR,
       point);
+
     document.removeEventListener('keydown', this.#escKeyDownHandler);
     this.#handleNewPointEditClose();
-
   };
 
   #escKeyDownHandler = (evt) => {
     if (evt.key === 'Escape') {
       evt.preventDefault();
       this.#newPointFormComponent.reset(this.#point);
+
       remove(this.#newPointFormComponent);
       document.removeEventListener('keydown', this.#escKeyDownHandler);
       this.#handleNewPointEditClose();
