@@ -202,6 +202,7 @@ class PagePresenter {
   };
 
   #handleSortTypeChange = (sortType) => {
+    this.#isNewPoint = false;
     if (this.#currentSortType === sortType) {
       return;
     }
@@ -231,6 +232,7 @@ class PagePresenter {
         break;
       case UpdateType.MAJOR:
         this.#clearListPoint({ resetSortType: true });
+        this.#isNewPoint = false;
 
         this.#renderListPoint();
         break;
