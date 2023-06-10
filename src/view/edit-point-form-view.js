@@ -173,12 +173,13 @@ class EditPointFormView extends AbstractStatefulView {
   #handleDeleteClick = null;
   #handleCancelClick = null;
 
-  #datepicker = null;
+  #datepickerFrom = null;
+  #datepickerTo = null;
 
   constructor({ point, destinations, offers, onFormSubmit, onFormClose, onDeleteClick, onCancelClick }) {
     super();
     this.#point = point;
-    this._setState(this.#parsePointToState(this.#point));
+    this._setState(EditPointFormView.parsePointToState(this.#point));
     this.#destinations = destinations;
     this.#offers = offers;
 
@@ -197,9 +198,13 @@ class EditPointFormView extends AbstractStatefulView {
   removeElement() {
     super.removeElement();
 
-    if (this.#datepicker) {
-      this.#datepicker.destroy();
-      this.#datepicker = null;
+    if (this.#datepickerFrom) {
+      this.#datepickerFrom.destroy();
+      this.#datepickerFrom = null;
+    }
+    if (this.#datepickerTo) {
+      this.#datepickerTo.destroy();
+      this.#datepickerTo = null;
     }
   }
 
@@ -214,32 +219,32 @@ class EditPointFormView extends AbstractStatefulView {
     };
   }
 
-  #setDatepickerFrom() {
-    this.#datepicker = flatpickr(
-      this.element.querySelector('#event-start-time-1'),
+  #setDatepickers() {
+
+    const [dateFromElement, dateToElement] = this.element.querySelectorAll('.event__input--time');
+
+    this.#datepickerFrom = flatpickr(
+      dateFromElement,
       {
         maxDate: this._state.dateTo,
         defaultDate: this._state.dateFrom ? this._state.dateFrom : '',
-        onChange: this.#dateFromChangeHandler,
+        onClose: this.#dateFromChangeHandler,
         ...this.#setSettingsDatepicker(),
       }
     );
-  }
 
-
-  #setDatepickerTo() {
-    this.#datepicker = flatpickr(
-      this.element.querySelector('#event-end-time-1'),
+    this.#datepickerTo = flatpickr(
+      dateToElement,
       {
         minDate: this._state.dateFrom,
         defaultDate: this._state.dateTo ? this._state.dateTo : '',
-        onChange: this.#dateToChangeHandler,
+        onClose: this.#dateToChangeHandler,
         ...this.#setSettingsDatepicker(),
       }
     );
   }
 
-  #parsePointToState(point) {
+  static parsePointToState(point) {
     return {
       ...point,
       isDisabled: false,
@@ -248,7 +253,7 @@ class EditPointFormView extends AbstractStatefulView {
     };
   }
 
-  #parseStateToPoint(state) {
+  static parseStateToPoint(state) {
     const point = { ...state };
 
     delete point.isDisabled;
@@ -259,7 +264,7 @@ class EditPointFormView extends AbstractStatefulView {
   }
 
   reset(point) {
-    this.updateElement(this.#parsePointToState(point));
+    this.updateElement(EditPointFormView.parsePointToState(point));
   }
 
   _restoreHandlers() {
@@ -277,25 +282,27 @@ class EditPointFormView extends AbstractStatefulView {
     if (blockOffers) {
       blockOffers.addEventListener('change', this.#offersChangeHandler);
     }
-    this.#setDatepickerFrom();
-    this.#setDatepickerTo();
+
+    this.#setDatepickers();
   }
 
   #dateFromChangeHandler = ([userDate]) => {
-    this.updateElement({
+    this._setState({
+      ...this._state,
       dateFrom: userDate,
     });
   };
 
   #dateToChangeHandler = ([userDate]) => {
-    this.updateElement({
+    this._setState({
+      ...this._state,
       dateTo: userDate,
     });
   };
 
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
-    this.#handleFormSubmit(this.#parseStateToPoint(this._state));
+    this.#handleFormSubmit(EditPointFormView.parseStateToPoint(this._state));
   };
 
   #formCloseHandler = (evt) => {
@@ -305,7 +312,7 @@ class EditPointFormView extends AbstractStatefulView {
 
   #formDeleteClickHandler = (evt) => {
     evt.preventDefault();
-    this.#handleDeleteClick(this.#parseStateToPoint(this._state));
+    this.#handleDeleteClick(EditPointFormView.parseStateToPoint(this._state));
   };
 
   #formCancelClickHandler = () => {
@@ -314,6 +321,7 @@ class EditPointFormView extends AbstractStatefulView {
 
   #typeChangeHandler = (evt) => {
     this.updateElement({
+      ...this._state,
       type: evt.target.value,
       offers: [],
     });
@@ -331,15 +339,14 @@ class EditPointFormView extends AbstractStatefulView {
       return;
     }
     this.updateElement({
+
       destination: getPointDestinationId(this.#destinations, evt.target.value)
     });
   };
 
   #basePriceChangeHandler = (evt) => {
     evt.preventDefault();
-    this.updateElement({
-      basePrice: Number(evt.target.value)
-    });
+    this._setState({ ...this._state, basePrice: Number(evt.target.value) });
   };
 
   #offersChangeHandler = (evt) => {
@@ -348,7 +355,8 @@ class EditPointFormView extends AbstractStatefulView {
     const changedOffers = this.element.querySelectorAll('.event__offer-checkbox:checked');
     const offers = [...changedOffers].map((changedOffer) => changedOffer.dataset.offerId);
 
-    this.updateElement({
+    this._setState({
+      ...this._state,
       offers: [...offers]
     });
   };
