@@ -26,8 +26,7 @@ class NewPointPresenter {
       destinations: this.#destinations,
       offers: this.#offers,
       onFormSubmit: this.#handleFormSubmit,
-      onDeleteClick: this.#handleDeleteClick,
-      onCancelClick: this.#handleCancelClick
+      onFormClose: this.#handleFormClose,
     });
     render(this.#newPointFormComponent, this.#listPointContainer, RenderPosition.AFTERBEGIN);
     document.addEventListener('keydown', this.#escKeyDownHandler);
@@ -81,16 +80,12 @@ class NewPointPresenter {
     }
   };
 
-  #handleDeleteClick = (point) => {
-    this.#newPointFormComponent.reset(point);
-    remove(this.#newPointFormComponent);
+  #handleFormClose = () => {
+    this.#newPointFormComponent.reset(this.#point);
+    this.#handleNewPointEditClose();
+    document.removeEventListener('keydown', this.#escKeyDownHandler);
   };
 
-  #handleCancelClick = () => {
-    this.#newPointFormComponent.reset(this.#point);
-    document.removeEventListener('keydown', this.#escKeyDownHandler);
-    this.#handleNewPointEditClose();
-  };
 }
 
 export default NewPointPresenter;

@@ -124,6 +124,7 @@ class HeaderPresenter extends AbstractView {
         this.#renderTripInfo();
 
         if (!this.points.length || !this.destinations.length || !this.offers.length) {
+          remove(this.#tripInfoComponent);
           return;
         }
         this.#tripInfoMainComponent = new TripInfoMainView({
