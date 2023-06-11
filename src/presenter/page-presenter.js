@@ -181,7 +181,7 @@ class PagePresenter {
   #handleNewPointButtonClick = () => {
     this.#isNewPoint = true;
     this.#currentSortType = SortType.DEFAULT;
-    this.#filtersModel.setFilter(UpdateType.MAJOR, FilterType.EVERYTHING);
+    this.#filtersModel.setFilter(UpdateType.MINOR, FilterType.EVERYTHING);
     this.#newPointButtonComponent.element.disabled = true;
 
     this.#newPointPresenter = new NewPointPresenter({
@@ -237,8 +237,10 @@ class PagePresenter {
         this.#renderListPoint();
         break;
       case UpdateType.MAJOR:
-        this.#isNewPoint = false;
-        this.#newPointButtonComponent.element.disabled = false;
+        if (this.#isNewPoint && Object.values(FilterType).some((type) => type === data)) {
+          this.#newPointButtonComponent.element.disabled = false;
+          this.#isNewPoint = false;
+        }
 
         this.#clearListPoint({ resetSortType: true });
 

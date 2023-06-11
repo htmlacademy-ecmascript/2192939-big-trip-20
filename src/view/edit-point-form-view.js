@@ -18,7 +18,7 @@ function createPointTypeItem(point) {
   return POINT_TYPES.map((pointType) =>
   /*html*/`<div class="event__type-item">
             <input id="event-type-${pointType}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value=${pointType} ${point.type === pointType ? 'checked' : ''}>
-            <label class="event__type-label  event__type-label--${pointType}" for="event-type-${pointType}-1">${pointType}</label>
+            <label class="event__type-label  event__type-label--${pointType}" for="event-type-${pointType}-1">${pointType[0].toUpperCase() + pointType.slice(1)}</label>
           </div>`
   ).join('');
 }
@@ -289,6 +289,7 @@ class EditPointFormView extends AbstractStatefulView {
       ...this._state,
       dateFrom: userDate,
     });
+    this.#setDatepickers();
   };
 
   #dateToChangeHandler = ([userDate]) => {
@@ -296,6 +297,7 @@ class EditPointFormView extends AbstractStatefulView {
       ...this._state,
       dateTo: userDate,
     });
+    this.#setDatepickers();
   };
 
   #formSubmitHandler = (evt) => {
