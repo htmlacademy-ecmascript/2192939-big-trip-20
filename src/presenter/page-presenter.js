@@ -100,20 +100,20 @@ class PagePresenter {
   }
 
   #renderListPoint() {
+    this.#renderListPointComponent(this.#listPointComponent, this.#tripEventsContainer);
 
     if (this.#isLoading) {
       this.#renderLoadingComponent();
       return;
     }
 
-    if (!this.points.length) {
+    if (!this.points.length && !this.#isNewPoint) {
       this.#renderNoPointComponent();
       return;
     }
 
     this.#renderSort();
 
-    this.#renderListPointComponent(this.#listPointComponent, this.#tripEventsContainer);
     this.points.forEach((point) =>
       this.#renderPoint(point,
         this.destinations,
@@ -180,7 +180,9 @@ class PagePresenter {
 
   #handleNewPointButtonClick = () => {
     this.#isNewPoint = true;
+    this.#currentSortType = SortType.DEFAULT;
     this.#filtersModel.setFilter(UpdateType.MAJOR, FilterType.EVERYTHING);
+    this.#newPointButtonComponent.element.disabled = true;
 
     this.#newPointPresenter = new NewPointPresenter({
       listPointContainer: this.#listPointComponent.element,
@@ -191,19 +193,24 @@ class PagePresenter {
       onModeChange: this.#handleModeChange,
       onNewPointEditClose: this.#handleNewPointEditClose
     });
-    this.#newPointButtonComponent.element.disabled = true;
+
   };
 
   #handleNewPointEditClose = () => {
     this.#newPointButtonComponent.element.disabled = false;
     this.#isNewPoint = false;
-    this.#handleModeEvent(UpdateType.MINOR);
+    this.#clearListPoint();
+
+    this.#renderListPoint();
   };
 
   #handleSortTypeChange = (sortType) => {
+    this.#isNewPoint = false;
     if (this.#currentSortType === sortType) {
       return;
     }
+    this.#isNewPoint = false;
+    this.#newPointButtonComponent.element.disabled = false;
 
     this.#currentSortType = sortType;
     this.#clearListPoint();
@@ -224,11 +231,15 @@ class PagePresenter {
         this.#pointPresenters.get(data.id).init(data, this.destinations, this.offers);
         break;
       case UpdateType.MINOR:
+
         this.#clearListPoint();
 
         this.#renderListPoint();
         break;
       case UpdateType.MAJOR:
+        this.#isNewPoint = false;
+        this.#newPointButtonComponent.element.disabled = false;
+
         this.#clearListPoint({ resetSortType: true });
 
         this.#renderListPoint();
