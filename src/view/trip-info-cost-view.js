@@ -19,13 +19,14 @@ class TripInfoCostView extends AbstractView {
   #points = null;
   #offers = null;
 
-  get template() {
-    return createTripInfoCostView(this.#points, this.#offers);
-  }
-
-  init({ points, offers }) {
+  constructor({ points, offers }) {
+    super();
     this.#points = points;
     this.#offers = offers;
+  }
+
+  get template() {
+    return createTripInfoCostView(this.#points, this.#offers);
   }
 }
 

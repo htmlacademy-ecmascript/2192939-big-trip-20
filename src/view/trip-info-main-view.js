@@ -29,7 +29,6 @@ function createTripInfoTitle(points, destinations) {
 }
 
 function createTripInfoMainTemplate(points, destinations) {
-
   const firstDate = points.length > 0 ? dayjs(points[0].dateFrom).format('MMM DD') : '';
   const secondDate = points.length > 1 ? `${'&nbsp;&mdash;&nbsp;'}${dayjs(points[points.length - 1].dateTo).format('MMM DD')}` : '';
 

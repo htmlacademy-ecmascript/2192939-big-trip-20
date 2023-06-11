@@ -3,11 +3,11 @@ import PointsModel from './model/points-model.js';
 import DestinationsModel from './model/destinations-model.js';
 import OffersModel from './model/offers-model.js';
 import FiltersModel from './model/filters-model.js';
-import PointsApiService from './points-api-service.js';
-import DestinationsApiService from './destinations-api-service.js';
-import OffersApiService from './offers-api-service.js';
+import PointsApiService from './service/points-api-service.js';
+import DestinationsApiService from './service/destinations-api-service.js';
+import OffersApiService from './service/offers-api-service.js';
 
-const AUTHORIZATION = 'Basic Kerzytyrj&Ljcnjtdcrbq';
+const AUTHORIZATION = 'Basic Kerzytyrj&Ljcnjtdcrvq';
 const END_POINT = 'https://20.ecmascript.pages.academy/big-trip';
 
 const pointsModel = new PointsModel({

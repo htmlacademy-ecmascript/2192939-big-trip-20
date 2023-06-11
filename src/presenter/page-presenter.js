@@ -199,7 +199,9 @@ class PagePresenter {
   #handleNewPointEditClose = () => {
     this.#newPointButtonComponent.element.disabled = false;
     this.#isNewPoint = false;
-    this.#handleModeEvent(UpdateType.MINOR);
+    this.#clearListPoint();
+
+    this.#renderListPoint();
   };
 
   #handleSortTypeChange = (sortType) => {
@@ -207,6 +209,8 @@ class PagePresenter {
     if (this.#currentSortType === sortType) {
       return;
     }
+    this.#isNewPoint = false;
+    this.#newPointButtonComponent.element.disabled = false;
 
     this.#currentSortType = sortType;
     this.#clearListPoint();
@@ -227,11 +231,15 @@ class PagePresenter {
         this.#pointPresenters.get(data.id).init(data, this.destinations, this.offers);
         break;
       case UpdateType.MINOR:
+
         this.#clearListPoint();
 
         this.#renderListPoint();
         break;
       case UpdateType.MAJOR:
+        this.#isNewPoint = false;
+        this.#newPointButtonComponent.element.disabled = false;
+
         this.#clearListPoint({ resetSortType: true });
 
         this.#renderListPoint();

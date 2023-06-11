@@ -333,7 +333,6 @@ class EditPointFormView extends AbstractStatefulView {
       return;
     }
     this.updateElement({
-
       destination: getPointDestinationId(this.#destinations, evt.target.value)
     });
   };
